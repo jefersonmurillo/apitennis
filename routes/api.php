@@ -1,5 +1,7 @@
 <?php
 
+use App\Models;
+
 Route::group([
     'prefix' => 'auth',
 ], function () {
@@ -8,4 +10,8 @@ Route::group([
     Route::post('refresh', 'AuthController@refresh');
     Route::post('me', 'AuthController@me');
     Route::post('payload', 'AuthController@payload');
+});
+
+Route::get('x', function(){
+    return Models\TipoInstalacion::all();
 });

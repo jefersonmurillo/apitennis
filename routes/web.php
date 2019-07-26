@@ -11,6 +11,12 @@
 |
 */
 
+use App\Models;
+
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::get('x', function(){
+    return Models\TipoInstalacion::all();
 });
