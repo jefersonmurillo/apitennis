@@ -14,9 +14,14 @@
 use App\Models;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('administrador.index');
 });
 
-Route::get('x', function(){
-    return Models\TipoInstalacion::all();
+Route::group(['prefix' => 'administrador'], function () {
+
+    Route::get('usuarios', function (){
+        return view('administrador.usuarios.registro');
+    });
 });
+
+Route::resource('afiliados', 'AfiliadoController');
