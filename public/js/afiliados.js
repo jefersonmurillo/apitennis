@@ -34,13 +34,28 @@ $(function () {
             direccion: direccion
         };
 
-        $.ajax({
+        /*$.ajax({
             type: 'POST',
             url: 'afiliados/create',
             data: data,
             success: function(data){
                 console.log(data);
             },
+        });*/
+
+        $.ajax({
+            url: "http://32e6b5bf.ngrok.io/api/v1/tipoUsuario",
+            method: 'get',
+            contentType: 'application/json',
+            headers: {
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9sb2NhbGhvc3Q6ODAwMFwvYXBpXC9hdXRoXC9sb2dpbiIsImlhdCI6MTU2NDUxMDQ2MSwiZXhwIjoxNTY0NTE0MDYxLCJuYmYiOjE1NjQ1MTA0NjEsImp0aSI6IkY2bDNvUUIyd3pWWEdDTXciLCJzdWIiOjEsInBydiI6Ijg3ZTBhZjFlZjlmZDE1ODEyZmRlYzk3MTUzYTE0ZTBiMDQ3NTQ2YWEifQ.5pdXrY3jVWi45lZPSwfevqG5WFeb7aj0SD9ExXYCY74"
+            },
+            success: function (result) {
+                console.log(result)
+            },
+            error: function (xhr, ajaxOptions, thrownError) {
+                console.log(xhr)
+            }
         });
 
         return false;

@@ -10,7 +10,7 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('payload', 'AuthController@payload');
 });
 
-Route::group(['prefix' => 'v1', 'middleware' => ['cors', 'auth']], function () {
+Route::group(['prefix' => 'v1', 'middleware' => ['auth']], function () {
     Route::get('tipoDocumento', function(){return Models\TipoDocumento::all()->toArray();});
     Route::get('tipoUsuario', function(){return Models\TipoUsuario::all()->toArray();});
     Route::get('tipoEvento', function(){return Models\TipoEvento::all()->toArray();});
