@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "tipo": "CEDULA DE CIUDADANIA"
+  },
+  {
+    "id": 2,
+    "tipo": "CEDULA DE EXTRANGERIA"
+  },
+  {
+    "id": 3,
+    "tipo": "PASAPORTE"
+  }
+]

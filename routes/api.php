@@ -17,4 +17,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth']], function () {
     Route::get('tipoInstalacion', function(){return Models\TipoInstalacion::all()->toArray();});
     Route::get('disciplinas', function(){return Models\Disciplina::all()->toArray();});
     Route::get('categoriasGolfista', function(){return Models\CategoriaGolfista::all()->toArray();});
+
+    Route::resource('instalaciones', 'InstalacionController');
+    Route::resource('eventos', 'EventoController');
 });

@@ -45,7 +45,7 @@ class Evento extends Model
      */
     public function prioridad()
     {
-        return $this->belongsTo('App\Model\Prioridad');
+        return $this->belongsTo(Prioridad::class, 'prioridad_id');
     }
 
     /**
@@ -53,7 +53,7 @@ class Evento extends Model
      */
     public function tipoEvento()
     {
-        return $this->belongsTo('App\Model\TipoEvento');
+        return $this->belongsTo(TipoEvento::class, 'tipo_evento_id');
     }
 
     /**
@@ -61,6 +61,6 @@ class Evento extends Model
      */
     public function imagenesEventos()
     {
-        return $this->hasMany('App\Model\ImagenesEvento');
+        return $this->hasMany(ImagenesEvento::class, 'evento_id');
     }
 }

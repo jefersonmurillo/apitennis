@@ -1,0 +1,58 @@
+POST http://localhost:8000/afiliados/create
+Accept: */*
+Cache-Control: no-cache
+_token: H1j5yoOdkYKpripoR4vUpDf83fIFTYproAbznbHu
+
+<> 2019-07-30T105458.405.html
+
+###
+
+POST http://localhost:8000/afiliados/create
+Accept: */*
+Cache-Control: no-cache
+_token: H1j5yoOdkYKpripoR4vUpDf83fIFTYproAbznbHu
+
+<> 2019-07-30T105410.405.html
+
+###
+
+POST http://localhost:8000/afiliados/create
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-30T105253.405.html
+
+###
+
+GET http://localhost:8000/api/v1/eventos
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-30T102543.200.html
+
+###
+
+GET http://localhost:8000/api/v1/tipoDocumento
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-30T102257.200.json
+
+###
+
+GET http://localhost:8000/tipoDocumento
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-30T102230.404.html
+
+###
+
+GET http://localhost:8000/tipoDocumento
+Accept: */*
+Cache-Control: no-cache
+
+<> 2019-07-30T102217.404.html
+
+###
+

@@ -34,7 +34,7 @@ class Instalacion extends Model
      */
     public function disciplina()
     {
-        return $this->belongsTo('App\Model\Disciplina');
+        return $this->belongsTo(Disciplina::class, 'disciplina_id');
     }
 
     /**
@@ -42,7 +42,7 @@ class Instalacion extends Model
      */
     public function tipoInstalacion()
     {
-        return $this->belongsTo('App\Model\TipoInstalacion');
+        return $this->belongsTo(TipoInstalacion::class, 'tipo_instalacion_id');
     }
 
     /**
@@ -50,6 +50,6 @@ class Instalacion extends Model
      */
     public function imagenesInstalacions()
     {
-        return $this->hasMany('App\Model\ImagenesInstalacion');
+        return $this->hasMany(ImagenesInstalacion::class, 'instalacion_id');
     }
 }

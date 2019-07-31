@@ -44,21 +44,23 @@ class AfiliadoController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request, Response $response){
+        //return response()->json($request->toArray(), 200);
+
         $nombres = $request->get('nombres');
         $apellidos = $request->get('apellidos');
         $email = $request->get('email');
-        $tipo_documento = $request->get('tipo-documento');
-        $categoria_golfista = $request->get('categoria-golfista');
+        $tipo_documento = $request->get('tipo_documento');
+        $categoria_golfista = $request->get('categoria_golfista');
         $documento = $request->get('documento');
-        $fecha_nacimiento = $request->get('´fecha-nacimiento');
+        $fecha_nacimiento = $request->get('fecha_nacimiento');
         $telefono = $request->get('telefono');
         $direccion = $request->get('direccion');
         $genero = $request->get('genero');
-        $codigo_afiliado = $request->get('codigo-afiliado');
-        $codigo_golfista = $request->get('codigo-golfista');
-        $tipo_usuario = $request->get('tipo-usuario');
+        $codigo_afiliado = $request->get('codigo_afiliado');
+        $codigo_golfista = $request->get('codigo_golfista');
+        $tipo_usuario = $request->get('tipo_usuario');
 
-        return $response->json($request->all());
+
 
         $usuario = new User([
             'email' => $email,
@@ -78,6 +80,8 @@ class AfiliadoController extends Controller
             'codigo_golfista' => $codigo_golfista,
             'tipo_usuario_id' => $tipo_usuario
         ]);
+
+        return response()->json([$usuario->save()], 200);
     }
 
     /**
