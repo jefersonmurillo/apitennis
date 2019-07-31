@@ -1,8 +1,14 @@
 /**
- * Validaciones para el registro de usuarios
+ * Validaciones para el registro de afiliados
  */
 
 $(function () {
+
+    $(document).ready(function () {
+        $('#table-afiliados_wrapper .dataTables_filter').append(' <a href="/afiliados/create"><input type="button" value="Registrar Nuevo" class="btn btn-block btn-success"></a>');
+    });
+
+
     $('#form-registro-afiliados').submit(function (e) {
         let nombres = $('#nombres').val();
         let apellidos = $('#apellidos').val();
@@ -41,7 +47,7 @@ $(function () {
             type: 'post',
             url: 'afiliados',
             data: data,
-            success: function(res){
+            success: function (res) {
                 console.log(res);
             },
             error: function (xhr, ajaxOptions, thrownError) {

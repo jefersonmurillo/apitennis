@@ -19,10 +19,8 @@ class AfiliadoController extends Controller
      */
     public function index()
     {
-        return view('administrador.usuarios.registro', [
-            'tiposDocumento' => TipoDocumento::all()->toArray(),
-            'tiposUsuario' => TipoUsuario::all()->toArray(),
-            'categoriasGolfista' => CategoriaGolfista::all()->toArray()
+        return view('administrador.afiliados.index', [
+            'afiliados' => User::with(['categoriaGolfista', 'estadoUser', 'tipoDocumento', 'tipoUsuario'])->get()->toArray()
         ]);
     }
 
@@ -31,9 +29,12 @@ class AfiliadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
-    {
-
+    public function create(){
+        return view('administrador.afiliados.registro', [
+            'tiposDocumento' => TipoDocumento::all()->toArray(),
+            'tiposUsuario' => TipoUsuario::all()->toArray(),
+            'categoriasGolfista' => CategoriaGolfista::all()->toArray()
+        ]);
     }
 
     /**

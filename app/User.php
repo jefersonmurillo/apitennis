@@ -2,6 +2,10 @@
 
 namespace App;
 
+use App\Models\CategoriaGolfista;
+use App\Models\EstadosUsers;
+use App\Models\TipoDocumento;
+use App\Models\TipoUsuario;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -46,6 +50,38 @@ class User extends Authenticatable implements JWTSubject
     ];
 
     // Rest omitted for brevity
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function categoriaGolfista()
+    {
+        return $this->belongsTo(CategoriaGolfista::class, 'categoria_golfista_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function estadoUser()
+    {
+        return $this->belongsTo(EstadosUsers::class, 'estado_users_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tipoDocumento()
+    {
+        return $this->belongsTo(TipoDocumento::class, 'tipo_documento_id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tipoUsuario()
+    {
+        return $this->belongsTo(TipoUsuario::class,'tipo_usuario_id');
+    }
 
     /**
      * Get the identifier that will be stored in the subject claim of the JWT.
