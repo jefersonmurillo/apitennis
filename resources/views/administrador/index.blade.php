@@ -9,6 +9,6 @@
     </div>
 
     @include('layouts.footer')
-
+    @include('injection')
     <div class="control-sidebar-bg"></div>
 @endsection

@@ -35,13 +35,13 @@
                             <td>{{ $afiliado['email'] }}</td>
                             <td>
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-warning">Action</button>
+                                    <button type="button" class="btn btn-warning">Opciones</button>
                                     <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="#">Ver datos</a></li>
+                                        <li><a href="{{ env('APP_URL') }}/afiliados/{{ $afiliado['id'] }}">Ver datos</a></li>
                                         <li class="divider"></li>
                                         <li><a href="#">Eliminar</a></li>
                                     </ul>

@@ -174,7 +174,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Krlove\EloquentModelGenerator\Provider\GeneratorServiceProvider::class,
-
+        Laracasts\Utilities\JavaScript\JavaScriptServiceProvider::class
     ],
 
     /*

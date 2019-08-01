@@ -28,17 +28,24 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="afiliados"><i class="fa fa-circle-o"></i> Afiliados</a></li>
+                    <li class="active"><a href="{{ route('afiliados.index') }}"><i class="fa fa-circle-o"></i> Afiliados</a>
+                    </li>
                     <li><a href="index2.html"><i class="fa fa-circle-o"></i> Solicitudes</a></li>
                 </ul>
             </li>
-            <li>
-                <a href="pages/widgets.html">
+
+            <li class="treeview">
+                <a href="#">
                     <i class="fa fa-th"></i> <span>Instalaciones</span>
                     <span class="pull-right-container">
                       <small class="label pull-right bg-green">new</small>
                     </span>
                 </a>
+                <ul class="treeview-menu">
+                    <li class="active"><a href="{{ route('afiliados.index') }}"><i class="fa fa-circle-o"></i> Afiliados</a>
+                    </li>
+                    <li><a href="index2.html"><i class="fa fa-circle-o"></i> Solicitudes</a></li>
+                </ul>
             </li>
 
             <li class="header">LABELS</li>

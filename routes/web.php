@@ -1,7 +1,7 @@
 <?php
 
-Route::get('/', function () { return view('administrador.index'); });
-
-Route::group(['prefix' => 'afiliados'], function () {
-    Route::resource('/', 'AfiliadoController');
+Route::get('/', function () {
+    return view('administrador.index');
 });
+
+Route::resource('afiliados', 'AfiliadoController');

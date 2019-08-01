@@ -9,6 +9,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
+use JavaScript;
 
 class AfiliadoController extends Controller
 {
@@ -29,7 +30,12 @@ class AfiliadoController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(){
+    public function create()
+    {
+        JavaScript::put([
+            'categoriasGolfista' => CategoriaGolfista::all()->toArray()
+        ]);
+
         return view('administrador.afiliados.registro', [
             'tiposDocumento' => TipoDocumento::all()->toArray(),
             'tiposUsuario' => TipoUsuario::all()->toArray(),
@@ -44,28 +50,31 @@ class AfiliadoController extends Controller
      * @param  \Illuminate\Http\Response $response
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Response $response){
-        //return response()->json($request->toArray(), 200);
-
+    public function store(Request $request, Response $response)
+    {
         $nombres = $request->get('nombres');
         $apellidos = $request->get('apellidos');
         $email = $request->get('email');
         $tipo_documento = $request->get('tipo_documento');
-        $categoria_golfista = $request->get('categoria_golfista');
         $documento = $request->get('documento');
         $fecha_nacimiento = $request->get('fecha_nacimiento');
         $telefono = $request->get('telefono');
         $direccion = $request->get('direccion');
         $genero = $request->get('genero');
         $codigo_afiliado = $request->get('codigo_afiliado');
-        $codigo_golfista = $request->get('codigo_golfista');
         $tipo_usuario = $request->get('tipo_usuario');
 
+        $categoria_golfista = null;
+        $codigo_golfista = null;
 
+        if($tipo_usuario == 3){
+            $categoria_golfista = $request->get('categoria_golfista');
+            $codigo_golfista = $request->get('codigo_golfista');
+        }
 
         $usuario = new User([
             'email' => $email,
-            'password' => Hash::make('CC'.$documento),
+            'password' => Hash::make('CC' . $documento),
             'name' => $nombres,
             'tipo_documento_id' => $tipo_documento,
             'categoria_golfista_id' => $categoria_golfista,
@@ -82,7 +91,7 @@ class AfiliadoController extends Controller
             'tipo_usuario_id' => $tipo_usuario
         ]);
 
-        return response()->json([$usuario->save()], 200);
+        return $usuario->save() ? response()->json([true], 200) : response()->json([false], 500);
     }
 
     /**
@@ -93,7 +102,19 @@ class AfiliadoController extends Controller
      */
     public function show($id)
     {
-        //
+        $afiliado = User::where(['id' => $id, 'estado_users_id' => 1])->get()->toArray()[0];
+
+        JavaScript::put([
+            'afiliado' => $afiliado,
+            'categoriasGolfista' => CategoriaGolfista::all()->toArray()
+        ]);
+
+        return view('administrador.afiliados.registro', [
+            'afiliado' => $afiliado,
+            'tiposDocumento' => TipoDocumento::all()->toArray(),
+            'tiposUsuario' => TipoUsuario::all()->toArray(),
+            'categoriasGolfista' => CategoriaGolfista::all()->toArray()
+        ]);
     }
 
     /**
@@ -104,7 +125,7 @@ class AfiliadoController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -116,7 +137,7 @@ class AfiliadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        return response()->json($request->all(), 200);
     }
 
     /**
