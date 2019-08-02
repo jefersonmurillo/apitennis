@@ -9,57 +9,44 @@
     <section class="content">
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">Usuarios y afiliados</h3>
+                <h3 class="box-title">Disciplinas</h3>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
-                <table id="table-afiliados" class="table table-bordered table-striped">
+                <table id="table-disciplinas" class="table table-bordered table-striped">
                     <thead>
                     <tr>
-                        <th>Codigo Afiliado</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Telefono</th>
-                        <th>Correo</th>
-                        <th>Tipo</th>
+                        <th>Disciplina</th>
                         <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($afiliados as $afiliado)
+                    @foreach($disciplinas as $disciplina)
                         <tr>
-                            <td>{{ $afiliado['codigo_afiliado'] }}</td>
-                            <td>{{ $afiliado['nombres'] }}</td>
-                            <td>{{ $afiliado['apellidos'] }}</td>
-                            <td>{{ $afiliado['telefono'] }}</td>
-                            <td>{{ $afiliado['email'] }}</td>
-                            <td>{{ $afiliado['tipo_usuario']['tipo'] }}</td>
+                            <th>{{$disciplina['nombre']}}</th>
                             <td>
                                 <div class="btn-group">
                                     <button type="button" class="btn btn-warning">Opciones</button>
-                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
+                                    <button type="button" class="btn btn-warning dropdown-toggle"
+                                            data-toggle="dropdown">
                                         <span class="caret"></span>
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ env('APP_URL') }}/afiliados/{{ $afiliado['id'] }}">Ver datos</a></li>
+                                        <li><a href="{{ env('APP_URL') }}/disciplinas/{{ $disciplina['id'] }}">Ver
+                                                datos</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="#" onclick="eliminarAfiliado('{{$afiliado['id']}}')">Eliminar</a></li>
+                                        <li><a href="#" onclick="eliminarAfiliado('{{$disciplina['id']}}')">Eliminar</a>
+                                        </li>
                                     </ul>
                                 </div>
                             </td>
                         </tr>
                     @endforeach
-
                     </tbody>
                     <tfoot>
                     <tr>
-                        <th>Codigo Afiliado</th>
-                        <th>Nombres</th>
-                        <th>Apellidos</th>
-                        <th>Telefono</th>
-                        <th>Correo</th>
-                        <th>Tipo</th>
+                        <th>Disciplina</th>
                         <th>Acciones</th>
                     </tr>
                     </tfoot>
@@ -74,11 +61,11 @@
     <script src="{{ asset('template/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('template/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
 
-    <script src="{{ asset('js/afiliados.js') }}"></script>
+    <script src="{{ asset('js/disciplinas.js') }}"></script>
 
     <script>
         $(function () {
-            $('#table-afiliados').DataTable();
+            $('#table-disciplinas').DataTable();
         });
     </script>
 @endsection

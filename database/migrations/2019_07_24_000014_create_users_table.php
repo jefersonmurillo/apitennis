@@ -38,6 +38,8 @@ class CreateUsersTable extends Migration
             $table->integer('categoria_golfista_id')->unsigned()->nullable();
             $table->integer('estado_users_id')->unsigned();
             $table->timestamp('email_verified_at')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->index(["estado_users_id"], 'fk_users_estado_users1_idx');
 
@@ -58,22 +60,22 @@ class CreateUsersTable extends Migration
 
             $table->foreign('tipo_documento_id', 'fk_users_tipo_documento_idx')
                 ->references('id')->on('tipo_documento')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
 
             $table->foreign('categoria_golfista_id', 'fk_users_categoria_golfista1_idx')
                 ->references('id')->on('categoria_golfista')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
 
             $table->foreign('tipo_usuario_id', 'fk_users_tipo_usuario1_idx')
                 ->references('id')->on('tipo_usuario')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
 
             $table->foreign('estado_users_id', 'fk_users_estado_users1_idx')
                 ->references('id')->on('estado_users')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
         });
     }

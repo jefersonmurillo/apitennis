@@ -2,18 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Instalacion;
+use App\Models\Disciplina;
 use Illuminate\Http\Request;
 
-class InstalacionController extends Controller
+class DisciplinaController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
-        return response()->json(['status' => 'ok', 'data' => Instalacion::with(['disciplina', 'tipoInstalacion', 'imagenesInstalacions'])->get()->toArray()]);
+    public function index()
+    {
+        return view('administrador.instalaciones.disciplinas', [
+            'disciplinas' => Disciplina::all()->toArray()
+        ]);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\CategoriaGolfista;
 use App\Models\EstadosUsers;
 use App\Models\TipoDocumento;
 use App\Models\TipoUsuario;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
@@ -13,6 +14,7 @@ use Tymon\JWTAuth\Contracts\JWTSubject;
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -48,6 +50,8 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $dates = ['deleted_at'];
 
     // Rest omitted for brevity
 

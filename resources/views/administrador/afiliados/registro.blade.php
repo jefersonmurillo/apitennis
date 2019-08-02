@@ -9,7 +9,6 @@
 @section('contenido')
     <section class="content">
         <form id="form-registro-afiliados" role="form" enctype="multipart/form-data">
-            {{ csrf_field() }}
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
@@ -140,19 +139,6 @@
                                     </select>
                                 </div>
                             </div>
-
-                            {{--<div class="col-sm-6">
-                                <div class="form-group">
-                                    <div class="form-group">
-                                        <label>Codigo de afiliado</label>
-                                        <input id="codigo-afiliado" name="codigo-afiliado" type="text"
-                                               class="form-control" placeholder="Ingrese el codigo de afiliado ..."
-                                               value="{{ isset($afiliado) ? $afiliado['codigo_afiliado'] : ''}}"
-                                               required>
-                                    </div>
-                                </div>
-                            </div>--}}
-
                             <div id="campos-golfista"></div>
                         </div>
                     </div>

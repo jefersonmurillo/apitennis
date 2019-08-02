@@ -46,12 +46,17 @@ class AfiliadoController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Illuminate\Http\Response $response
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Response $response
+     * @return \Illuminate\Http\JsonResponse
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request, Response $response)
     {
+
+        if (!$this->validarRequestAfiliados($request))
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400], 400);
+
         $nombres = $request->get('nombres');
         $apellidos = $request->get('apellidos');
         $email = $request->get('email');
@@ -67,9 +72,11 @@ class AfiliadoController extends Controller
         $categoria_golfista = null;
         $codigo_golfista = null;
 
-        if($tipo_usuario == 3){
-            $categoria_golfista = $request->get('categoria_golfista');
-            $codigo_golfista = $request->get('codigo_golfista');
+        if ($request->get('tipo_usuario') == 3) {
+            if (!$request->has('categoria_golfista') || !$request->has('codigo_golfista')) {
+                $categoria_golfista = $request->get('categoria_golfista');
+                $codigo_golfista = $request->get('codigo_golfista');
+            }
         }
 
         $usuario = new User([
@@ -92,6 +99,27 @@ class AfiliadoController extends Controller
         ]);
 
         return $usuario->save() ? response()->json([true], 200) : response()->json([false], 500);
+    }
+
+    private function validarRequestAfiliados(Request $request)
+    {
+        if (!$request->has('nombres') || !$request->has('apellidos') || !$request->has('email') ||
+            !$request->has('tipo_documento') || !$request->has('documento') || !$request->has('fecha_nacimiento') ||
+            !$request->has('telefono') || !$request->has('direccion') || !$request->has('genero') ||
+            !$request->has('tipo_usuario'))
+            return false;
+
+        if ($request->get('tipo_usuario') != 2) {
+            if (!$request->has('codigo_afiliado'))
+                return false;
+        }
+
+        if ($request->get('tipo_usuario') == 3) {
+            if (!$request->has('categoria_golfista') || !$request->has('codigo_golfista'))
+                return false;
+        }
+
+        return true;
     }
 
     /**
@@ -137,7 +165,48 @@ class AfiliadoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json($request->all(), 200);
+        if (!$this->validarRequestAfiliados($request))
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400], 400);
+
+        $nombres = $request->get('nombres');
+        $apellidos = $request->get('apellidos');
+        $email = $request->get('email');
+        $tipo_documento = $request->get('tipo_documento');
+        $documento = $request->get('documento');
+        $fecha_nacimiento = $request->get('fecha_nacimiento');
+        $telefono = $request->get('telefono');
+        $direccion = $request->get('direccion');
+        $genero = $request->get('genero');
+        $codigo_afiliado = $request->get('codigo_afiliado');
+        $tipo_usuario = $request->get('tipo_usuario');
+
+        $categoria_golfista = null;
+        $codigo_golfista = null;
+
+        if ($request->get('tipo_usuario') == 3) {
+            if (!$request->has('categoria_golfista') || !$request->has('codigo_golfista')) {
+                $categoria_golfista = $request->get('categoria_golfista');
+                $codigo_golfista = $request->get('codigo_golfista');
+            }
+        }
+
+        $afiliado = User::updateOrCreate(['id' => $request->get('id')]);
+        $afiliado->email = $email;
+        $afiliado->tipo_documento_id = $tipo_documento;
+        $afiliado->tipo_usuario_id = $tipo_usuario;
+        $afiliado->categoria_golfista_id = $categoria_golfista;
+        $afiliado->estado_users_id = 1;
+        $afiliado->documento = $documento;
+        $afiliado->nombres = $nombres;
+        $afiliado->apellidos = $apellidos;
+        $afiliado->fecha_naci = $fecha_nacimiento;
+        $afiliado->telefono = $telefono;
+        $afiliado->direccion = $direccion;
+        $afiliado->genero = $genero;
+        $afiliado->codigo_afiliado = $codigo_afiliado;
+        $afiliado->codigo_golfista = $codigo_golfista;
+
+        return response()->json($afiliado->save(), 200);
     }
 
     /**
@@ -148,6 +217,6 @@ class AfiliadoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json(User::find($id)->delete());
     }
 }

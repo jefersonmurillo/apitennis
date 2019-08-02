@@ -46,6 +46,7 @@
 
 <body class="hold-transition skin-blue sidebar-mini">
 <div class="wrapper">
+    {{ csrf_field() }}
     @yield('content')
 </div>
 <!-- ./wrapper -->

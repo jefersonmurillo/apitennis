@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -11,6 +12,9 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Disciplina extends Model
 {
+
+    use SoftDeletes;
+
     /**
      * The table associated with the model.
      * 
@@ -22,6 +26,8 @@ class Disciplina extends Model
      * @var array
      */
     protected $fillable = ['id', 'nombre'];
+
+    protected $dates = ['deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

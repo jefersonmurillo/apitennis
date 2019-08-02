@@ -10,12 +10,12 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('payload', 'AuthController@payload');
 });
 
-Route::group(['prefix' => 'v1', 'middleware' => ['auth']], function () {
-    Route::get('tipoDocumento', function(){return Models\TipoDocumento::all()->toArray();});
+Route::group(['prefix' => 'v1'], function () {
+    Route::get('tipoDocumento', function(){return ['status' => 'ok', 'data' => Models\TipoDocumento::all()->toArray()];});
     Route::get('tipoUsuario', function(){return Models\TipoUsuario::all()->toArray();});
     Route::get('tipoEvento', function(){return Models\TipoEvento::all()->toArray();});
     Route::get('tipoInstalacion', function(){return Models\TipoInstalacion::all()->toArray();});
-    Route::get('disciplinas', function(){return Models\Disciplina::all()->toArray();});
+    Route::get('disciplinas', function(){return ['status' => 'ok', 'data' => Models\Disciplina::all()->toArray()];});
     Route::get('categoriasGolfista', function(){return Models\CategoriaGolfista::all()->toArray();});
 
     Route::resource('instalaciones', 'InstalacionController');

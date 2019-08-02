@@ -2,14 +2,23 @@
  * Validaciones para el registro de afiliados
  */
 
+let user = undefined;
+try {
+    user = afiliado;
+} catch (e) {
+    user = undefined;
+}
+
 $(function () {
 
     $(document).ready(function () {
         $('#table-afiliados_wrapper .dataTables_filter').append(' <a href="/afiliados/create"><input type="button" value="Registrar Nuevo" class="btn btn-block btn-success"></a>');
+        cargarDatosGolfista();
     });
 
 
     $('#form-registro-afiliados').submit(function (e) {
+        e.preventDefault();
         let nombres = $('#nombres').val();
         let apellidos = $('#apellidos').val();
         let tipo_documento = $('#tipo-documento').val();
@@ -44,14 +53,16 @@ $(function () {
             codigo_afiliado: codigo_afiliado,
             categoria_golfista: categoria_golfista,
             codigo_golfista: codigo_golfista,
-            direccion: direccion
+            direccion: direccion,
+            id: user !== undefined ? user['id'] : null
         };
 
-        let url = afiliado === undefined ? '../' : '/afiliados/' + afiliado['id'];
-        let method = afiliado === undefined ? 'post' : 'put';
+        let url = user === undefined ? '/afiliados' : '/afiliados/' + user['id'];
+        let method = user === undefined ? 'post' : 'put';
 
         console.log(url);
-        console.log(method)
+        console.log(method);
+        console.log(data);
         $.ajax({
             type: method,
             url: url,
@@ -60,7 +71,7 @@ $(function () {
                 console.log(res);
             },
             error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError);
+                console.log(thrownError, xhr);
             }
         });
 
@@ -68,69 +79,84 @@ $(function () {
     });
 
     $('#tipo-usuario').change(() => {
-        let user = undefined;
-       try {
-           user = afiliado;
-       } catch (e) {
-           user = undefined;
-       }
-
-
-        if (parseInt($('#tipo-usuario').val()) === 3) {
-            let html = '<select id="categoria-golfista" name="categoria-golfista" class="form-control" required>\n' +
-                '                <option value="0">Seleccione</option>';
-
-            for (let i = 0; i < categoriasGolfista.length; i++) {
-                if (user !== undefined && user['categoria_golfista_id'] === categoriasGolfista[i]['id'])
-                    html += '<option value="' + categoriasGolfista[i]['id'] + '" selected>' + categoriasGolfista[i]['categoria'] + '</option>';
-                else html += '<option value="' + categoriasGolfista[i]['id'] + '">' + categoriasGolfista[i]['categoria'] + '</option>';
-            }
-
-            html += '</select>';
-
-            $('#campos-golfista')
-                .empty()
-                .append('' +
-                    '<div class="col-sm-6">\n' +
-                    '    <div class="form-group">\n' +
-                    '        <div class="form-group">\n' +
-                    '            <label>Codigo de afiliado</label>\n' +
-                    '            <input id="codigo-afiliado" name="codigo-afiliado" type="text" class="form-control"\n' +
-                    '                   placeholder="Ingrese el codigo de afiliado ..." value="' + (user !== undefined ? user['codigo_afiliado'] : '') + '" required>\n' +
-                    '        </div>\n' +
-                    '    </div>\n' +
-                    '</div>\n' +
-                    '<div class="col-sm-6">\n' +
-                    '    <div class="form-group">\n' +
-                    '        <div class="form-group">\n' +
-                    '            <label>Categoria de golfista</label>\n' +
-                    html +
-                    '        </div>\n' +
-                    '    </div>\n' +
-                    '</div>\n' +
-                    '\n' +
-                    '<div class="col-sm-6">\n' +
-                    '    <div class="form-group">\n' +
-                    '        <div class="form-group">\n' +
-                    '            <label>Codigo de golfista</label>\n' +
-                    '            <input id="codigo-golfista" name="codigo-golfista" type="text" class="form-control"\n' +
-                    '                   placeholder="Ingrese el codigo de golfista ..." value="' + (user !== undefined ? user['codigo_golfista'] : '') + '" required>\n' +
-                    '        </div>\n' +
-                    '    </div>\n' +
-                    '</div>'
-                );
-        } else if (parseInt($('#tipo-usuario').val()) === 1) {
-            $('#campos-golfista').empty()
-                .append('<div class="col-sm-6">\n' +
-                    '    <div class="form-group">\n' +
-                    '        <div class="form-group">\n' +
-                    '            <label>Codigo de afiliado</label>\n' +
-                    '            <input id="codigo-afiliado" name="codigo-afiliado" type="text" class="form-control"\n' +
-                    '                   placeholder="Ingrese el codigo de afiliado ..." value="' + (user !== undefined ? user['codigo_afiliado'] : '') + '" required>\n' +
-                    '        </div>\n' +
-                    '    </div>\n' +
-                    '</div>\n'
-                );
-        } else $('#campos-golfista').empty();
+        cargarDatosGolfista();
     });
 });
+
+function cargarDatosGolfista() {
+    if (parseInt($('#tipo-usuario').val()) === 3) {
+        let html = '<select id="categoria-golfista" name="categoria-golfista" class="form-control" required>\n' +
+            '                <option value="0">Seleccione</option>';
+
+        for (let i = 0; i < categoriasGolfista.length; i++) {
+            if (user !== undefined && user['categoria_golfista_id'] === categoriasGolfista[i]['id'])
+                html += '<option value="' + categoriasGolfista[i]['id'] + '" selected>' + categoriasGolfista[i]['categoria'] + '</option>';
+            else html += '<option value="' + categoriasGolfista[i]['id'] + '">' + categoriasGolfista[i]['categoria'] + '</option>';
+        }
+
+        html += '</select>';
+
+        $('#campos-golfista')
+            .empty()
+            .append('' +
+                '<div class="col-sm-6">\n' +
+                '    <div class="form-group">\n' +
+                '        <div class="form-group">\n' +
+                '            <label>Codigo de afiliado</label>\n' +
+                '            <input id="codigo-afiliado" name="codigo-afiliado" type="text" class="form-control"\n' +
+                '                   placeholder="Ingrese el codigo de afiliado ..." value="' + (user !== undefined ? user['codigo_afiliado'] : '') + '" required>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>\n' +
+                '<div class="col-sm-6">\n' +
+                '    <div class="form-group">\n' +
+                '        <div class="form-group">\n' +
+                '            <label>Categoria de golfista</label>\n' +
+                html +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>\n' +
+                '\n' +
+                '<div class="col-sm-6">\n' +
+                '    <div class="form-group">\n' +
+                '        <div class="form-group">\n' +
+                '            <label>Codigo de golfista</label>\n' +
+                '            <input id="codigo-golfista" name="codigo-golfista" type="text" class="form-control"\n' +
+                '                   placeholder="Ingrese el codigo de golfista ..." value="' + (user !== undefined ? user['codigo_golfista'] : '') + '" required>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>'
+            );
+    } else if (parseInt($('#tipo-usuario').val()) === 1) {
+        $('#campos-golfista').empty()
+            .append('<div class="col-sm-6">\n' +
+                '    <div class="form-group">\n' +
+                '        <div class="form-group">\n' +
+                '            <label>Codigo de afiliado</label>\n' +
+                '            <input id="codigo-afiliado" name="codigo-afiliado" type="text" class="form-control"\n' +
+                '                   placeholder="Ingrese el codigo de afiliado ..." value="' + (user !== undefined ? user['codigo_afiliado'] : '') + '" required>\n' +
+                '        </div>\n' +
+                '    </div>\n' +
+                '</div>\n'
+            );
+    } else $('#campos-golfista').empty();
+
+    if (user !== undefined) {
+        $('#campos-golfista').append('<input type="hidden" id="id" name="id" value="' + user['id'] + '">');
+    }
+}
+
+function eliminarAfiliado(id) {
+    $.ajax({
+        type: 'delete',
+        url: '/afiliados/' + id,
+        data: {'_token': $("input:hidden[name='_token']").val()},
+        success: function (res) {
+            console.log(res);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(thrownError, xhr);
+        }
+    });
+    return false;
+}
