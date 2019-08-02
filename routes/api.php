@@ -11,12 +11,12 @@ Route::group(['prefix' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('tipoDocumento', function(){return ['status' => 'ok', 'data' => Models\TipoDocumento::all()->toArray()];});
-    Route::get('tipoUsuario', function(){return Models\TipoUsuario::all()->toArray();});
-    Route::get('tipoEvento', function(){return Models\TipoEvento::all()->toArray();});
-    Route::get('tipoInstalacion', function(){return Models\TipoInstalacion::all()->toArray();});
-    Route::get('disciplinas', function(){return ['status' => 'ok', 'data' => Models\Disciplina::all()->toArray()];});
-    Route::get('categoriasGolfista', function(){return Models\CategoriaGolfista::all()->toArray();});
+    Route::get('tipoDocumento', function(){return ['status' => 'ok', 'data' => Models\TipoDocumento::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+    Route::get('tipoUsuario', function(){return ['status' => 'ok', 'data' => Models\TipoUsuario::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+    Route::get('tipoEvento', function(){return ['status' => 'ok', 'data' => Models\TipoEvento::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+    Route::get('tipoInstalacion', function(){return ['status' => 'ok', 'data' => Models\TipoInstalacion::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+    Route::get('disciplinas', function(){return ['status' => 'ok', 'data' => Models\Disciplina::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+    Route::get('categoriasGolfista', function(){return ['status' => 'ok', 'data' => Models\CategoriaGolfista::all()->toArray(), 'message' => 'Consulta Exitosa'];});
 
     Route::resource('instalaciones', 'InstalacionController');
     Route::resource('eventos', 'EventoController');

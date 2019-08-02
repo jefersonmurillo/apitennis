@@ -26,9 +26,8 @@ class AuthController extends Controller
         if (!$token = auth()->attempt($credentials)) {
             return response()->json([
                 'status' => 'error',
-                'data' => [
-                    'message' => 'Credenciales invalidas'
-                ]
+                'data' => [$credentials],
+                'message' => 'Credenciales invalidas'
             ], 401);
         }
 
@@ -86,7 +85,8 @@ class AuthController extends Controller
                 'access_token' => $token,
                 'token_type' => 'bearer',
                 'expires_in' => auth()->factory()->getTTL() * 60,
-            ]
+            ],
+            'message' => 'Inicio de sesión'
         ]);
     }
 }

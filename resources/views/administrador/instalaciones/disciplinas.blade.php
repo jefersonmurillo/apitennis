@@ -33,7 +33,8 @@
                                         <span class="sr-only">Toggle Dropdown</span>
                                     </button>
                                     <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ env('APP_URL') }}/disciplinas/{{ $disciplina['id'] }}">Ver
+                                        <li onclick="modalActualizarDisciplina('{{$disciplina['id']}}', '{{$disciplina['nombre']}}')">
+                                            <a href="#">Ver
                                                 datos</a></li>
                                         <li class="divider"></li>
                                         <li><a href="#" onclick="eliminarAfiliado('{{$disciplina['id']}}')">Eliminar</a>
@@ -54,6 +55,7 @@
             </div>
             <!-- /.box-body -->
         </div>
+        <div id="modal"></div>
     </section>
 @endsection
 
