@@ -28,6 +28,6 @@ class TipoInstalacion extends Model
      */
     public function instalacions()
     {
-        return $this->hasMany('App\Model\Instalacion');
+        return $this->hasMany(Instalacion::class, 'tipo_instalacion_id');
     }
 }

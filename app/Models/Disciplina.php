@@ -34,6 +34,6 @@ class Disciplina extends Model
      */
     public function instalacions()
     {
-        return $this->hasMany('App\Model\Instalacion');
+        return $this->hasMany(Instalacion::class, 'disciplina_id');
     }
 }
