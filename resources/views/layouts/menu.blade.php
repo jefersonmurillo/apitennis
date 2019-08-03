@@ -42,8 +42,8 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="active"><a href="{{ route('disciplinas.index') }}"><i class="fa fa-circle-o"></i>Disciplinas</a>
-                    </li>
+                    <li><a href="{{ route('instalaciones.index') }}"><i class="fa fa-circle-o"></i>Listado de instalaciones</a></li>
+                    <li class="active"><a href="{{ route('disciplinas.index') }}"><i class="fa fa-circle-o"></i>Disciplinas</a></li>
                     <li><a href="index2.html"><i class="fa fa-circle-o"></i>Tipos de instalaciones</a></li>
                 </ul>
             </li>

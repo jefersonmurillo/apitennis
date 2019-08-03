@@ -14,11 +14,7 @@ class EventoController extends Controller
      */
     public function index()
     {
-        return response()->json([
-            'status' => 'ok',
-            'data' => Evento::with(['prioridad', 'tipoEvento', 'imagenesEventos'])->get()->toArray(),
-            'message' => 'Consulta Exitosa'
-        ]);
+
     }
 
     /**

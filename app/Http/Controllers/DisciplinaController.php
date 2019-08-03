@@ -26,7 +26,7 @@ class DisciplinaController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -37,7 +37,14 @@ class DisciplinaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        if(!$request->has('disciplina') OR empty($request->get('disciplina')))
+            return response()->json(['message' => 'Datos Invalidos', 'status' => 400, 'data' => $request->toArray()], 400);
+
+        $disciplina = new Disciplina(['nombre' => $request->get('disciplina')]);
+
+        if($disciplina->save())
+            return response()->json(['message' => 'Actualización Exitosa', 'status' => 200, 'data' => [true]], 200);
+        else return response()->json(['message' => 'Error', 'status' => 500, 'data' => [false]], 500);
     }
 
     /**
@@ -71,7 +78,14 @@ class DisciplinaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        return response()->json($request->toArray(), 200);
+        if(!$request->has('disciplina') OR empty($request->get('disciplina')))
+            return response()->json(['message' => 'Datos Invalidos', 'status' => 400, 'data' => $request->toArray()], 400);
+
+        $disciplina = Disciplina::updateOrCreate(['id' => $request->get('id')]);
+        $disciplina->nombre = $request->get('disciplina');
+        if($disciplina->save())
+            return response()->json(['message' => 'Actualización Exitosa', 'status' => 200, 'data' => [true]], 200);
+        else return response()->json(['message' => 'Error', 'status' => 500, 'data' => [false]], 500);
     }
 
     /**
@@ -82,6 +96,6 @@ class DisciplinaController extends Controller
      */
     public function destroy($id)
     {
-        //
+        return response()->json(Disciplina::find($id)->delete());
     }
 }

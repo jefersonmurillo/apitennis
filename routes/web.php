@@ -6,5 +6,4 @@ Route::get('/', function () {
 
 Route::resource('afiliados', 'AfiliadoController');
 Route::resource('disciplinas', 'DisciplinaController');
-
-Route::get('/x', function(){return \App\User::updateOrCreate(['id' => 1]);});
+Route::resource('instalaciones', 'InstalacionController');

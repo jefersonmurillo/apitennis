@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Disciplina;
 use App\Models\Instalacion;
+use App\Models\TipoInstalacion;
 use Illuminate\Http\Request;
 
 class InstalacionController extends Controller
@@ -13,7 +15,10 @@ class InstalacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
-        return response()->json(['status' => 'ok', 'data' => Instalacion::with(['disciplina', 'tipoInstalacion', 'imagenesInstalacions'])->get()->toArray()]);
+        return view('administrador.instalaciones.registro', [
+            'tiposInstalacion' => TipoInstalacion::all()->toArray(),
+            'disciplinas' => Disciplina::all()->toArray(),
+        ]);
     }
 
     /**
@@ -23,7 +28,7 @@ class InstalacionController extends Controller
      */
     public function create()
     {
-        //
+        return view('administrador.instalaciones.registro');
     }
 
     /**

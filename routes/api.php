@@ -17,7 +17,12 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('tipoInstalacion', function(){return ['status' => 'ok', 'data' => Models\TipoInstalacion::all()->toArray(), 'message' => 'Consulta Exitosa'];});
     Route::get('disciplinas', function(){return ['status' => 'ok', 'data' => Models\Disciplina::all()->toArray(), 'message' => 'Consulta Exitosa'];});
     Route::get('categoriasGolfista', function(){return ['status' => 'ok', 'data' => Models\CategoriaGolfista::all()->toArray(), 'message' => 'Consulta Exitosa'];});
+});
 
-    Route::resource('instalaciones', 'InstalacionController');
-    Route::resource('eventos', 'EventoController');
+Route::group(['prefix' => 'v1/instalaciones'], function () {
+    Route::get('/', 'Services\Services@obtenerInstalaciones');
+});
+
+Route::group(['prefix' => 'v1/eventos'], function () {
+    Route::get('/', 'Services\Services@obtenerEventos');
 });
