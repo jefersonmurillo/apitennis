@@ -11,6 +11,6 @@ class EventoSeeder extends Seeder
      */
     public function run()
     {
-        
+
     }
 }
