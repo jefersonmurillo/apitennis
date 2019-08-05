@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\EstadosUsers;
 
 class EstadoUsersTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class EstadoUsersTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        EstadosUsers::truncate();
+        EstadosUsers::create(
+            ['estado' => 'ACTIVO'],
+            ['estado' => 'EN ESPERA'],
+            ['estado' => 'INACTIVO']
+        );
     }
 }

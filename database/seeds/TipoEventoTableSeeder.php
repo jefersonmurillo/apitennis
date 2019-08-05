@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\TipoEvento;
 
 class TipoEventoTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class TipoEventoTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        TipoEvento::truncate();
+        TipoEvento::create(
+            ['tipo' => 'FAMILIAR'],
+            ['tipo' => 'NIÑOS'],
+            ['tipo' => 'ADULTOS']
+        );
     }
 }

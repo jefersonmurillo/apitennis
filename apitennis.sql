@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.9.0.1
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 30-07-2019 a las 19:25:17
--- Versión del servidor: 10.1.36-MariaDB
--- Versión de PHP: 7.2.11
+-- Tiempo de generación: 05-08-2019 a las 23:47:55
+-- Versión del servidor: 10.3.16-MariaDB
+-- Versión de PHP: 7.3.7
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -55,20 +55,21 @@ INSERT INTO `categoria_golfista` (`id`, `categoria`) VALUES
 
 CREATE TABLE `disciplina` (
   `id` int(10) UNSIGNED NOT NULL,
-  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL
+  `nombre` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `disciplina`
 --
 
-INSERT INTO `disciplina` (`id`, `nombre`) VALUES
-(1, 'Basquetbol'),
-(2, 'Golf'),
-(3, 'Natación'),
-(4, 'Tennis'),
-(5, 'Futbol'),
-(6, 'Voleibol');
+INSERT INTO `disciplina` (`id`, `nombre`, `deleted_at`) VALUES
+(1, 'Basquetbol', NULL),
+(2, 'Golf', NULL),
+(3, 'Natación', NULL),
+(4, 'Tennis', NULL),
+(5, 'Futbol', NULL),
+(6, 'Voleibol', NULL);
 
 -- --------------------------------------------------------
 
@@ -107,6 +108,16 @@ CREATE TABLE `evento` (
   `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `evento`
+--
+
+INSERT INTO `evento` (`id`, `prioridad_id`, `tipo_evento_id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `imagen_destacada`) VALUES
+(1, 2, 3, 'Evento1', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-02', 'storage/1.jpg'),
+(2, 1, 1, 'Evento Familiar', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/2.jpg'),
+(3, 2, 1, 'Evento Familiar', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-23', '2019-08-01', 'storage/3.jpg'),
+(4, 1, 2, 'Evento Infantil', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/1.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -119,6 +130,16 @@ CREATE TABLE `imagenes_evento` (
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+--
+-- Volcado de datos para la tabla `imagenes_evento`
+--
+
+INSERT INTO `imagenes_evento` (`id`, `evento_id`, `url`) VALUES
+(1, 1, 'storage/2.jpg'),
+(2, 1, 'storage/3.jpg'),
+(3, 2, 'storage/1.jpg'),
+(4, 2, 'storage/3.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -130,6 +151,24 @@ CREATE TABLE `imagenes_instalacion` (
   `instalacion_id` int(10) UNSIGNED NOT NULL,
   `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `imagenes_instalacion`
+--
+
+INSERT INTO `imagenes_instalacion` (`id`, `instalacion_id`, `url`) VALUES
+(1, 1, 'storage/1.jpg'),
+(2, 1, 'storage/2.jpg'),
+(3, 2, 'storage/2.jpg'),
+(4, 8, 'storage/1.jpg'),
+(5, 10, 'storage/2.jpg'),
+(6, 2, 'storage/2.jpg'),
+(7, 3, 'storage/1.jpg'),
+(8, 7, 'storage/2.jpg'),
+(9, 2, 'storage/2.jpg'),
+(10, 9, 'storage/1.jpg'),
+(11, 4, 'storage/2.jpg'),
+(12, 2, 'storage/2.jpg');
 
 -- --------------------------------------------------------
 
@@ -145,6 +184,22 @@ CREATE TABLE `instalacion` (
   `descripcion` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
   `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `instalacion`
+--
+
+INSERT INTO `instalacion` (`id`, `tipo_instalacion_id`, `disciplina_id`, `nombre`, `descripcion`, `imagen_destacada`) VALUES
+(1, 6, NULL, 'Instalacion Restaurante', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
+(2, 1, NULL, 'Instalacion Zona recreativa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
+(3, 3, NULL, 'Instalacion Deporte', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
+(4, 2, NULL, 'Instalacion Salon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg'),
+(5, 5, NULL, 'Instalacion SPA', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
+(6, 6, NULL, 'Instalacion Restaurante 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
+(7, 1, NULL, 'Instalacion Zona recreativa 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
+(8, 3, NULL, 'Instalacion Deporte 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
+(9, 2, NULL, 'Instalacion Salon 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg'),
+(10, 5, NULL, 'Instalacion SPA 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg');
 
 -- --------------------------------------------------------
 
@@ -266,10 +321,12 @@ CREATE TABLE `tipo_instalacion` (
 --
 
 INSERT INTO `tipo_instalacion` (`id`, `tipo`) VALUES
-(1, 'RESTAURANTE'),
+(1, 'ZONA RECREATIVA'),
 (2, 'SALÓN'),
 (3, 'DEPORTE'),
-(4, 'OTRO');
+(4, 'OTRO'),
+(5, 'SPA'),
+(6, 'RESTAURANTE');
 
 -- --------------------------------------------------------
 
@@ -316,16 +373,17 @@ CREATE TABLE `users` (
   `categoria_golfista_id` int(10) UNSIGNED DEFAULT NULL,
   `estado_users_id` int(10) UNSIGNED NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-  `updated_at` timestamp NULL DEFAULT NULL
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id`, `tipo_documento_id`, `tipo_usuario_id`, `documento`, `email`, `password`, `name`, `nombres`, `apellidos`, `fecha_naci`, `telefono`, `direccion`, `genero`, `codigo_afiliado`, `codigo_golfista`, `categoria_golfista_id`, `estado_users_id`, `email_verified_at`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', NULL, 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16');
+INSERT INTO `users` (`id`, `tipo_documento_id`, `tipo_usuario_id`, `documento`, `email`, `password`, `name`, `nombres`, `apellidos`, `fecha_naci`, `telefono`, `direccion`, `genero`, `codigo_afiliado`, `codigo_golfista`, `categoria_golfista_id`, `estado_users_id`, `email_verified_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', NULL, 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -461,25 +519,25 @@ ALTER TABLE `estado_users`
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes_evento`
 --
 ALTER TABLE `imagenes_evento`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes_instalacion`
 --
 ALTER TABLE `imagenes_instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de la tabla `instalacion`
 --
 ALTER TABLE `instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
@@ -509,7 +567,7 @@ ALTER TABLE `tipo_evento`
 -- AUTO_INCREMENT de la tabla `tipo_instalacion`
 --
 ALTER TABLE `tipo_instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`

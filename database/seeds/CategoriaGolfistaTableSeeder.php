@@ -11,8 +11,15 @@ class CategoriaGolfistaTableSeeder extends Seeder {
      */
     public function run() {
         CategoriaGolfista::truncate();
-        CategoriaGolfista::create([
-
-        ]);
+        CategoriaGolfista::create(
+            ['categoria' => 'BENJAMIN'],
+            ['categoria' => 'ALEVÍN'],
+            ['categoria' => 'INFANTIL'],
+            ['categoria' => 'CADETE'],
+            ['categoria' => 'JUNIOR'],
+            ['categoria' => 'BOYS/GIRLS'],
+            ['categoria' => 'MAYOR'],
+            ['categoria' => 'SENIOR']
+        );
     }
 }

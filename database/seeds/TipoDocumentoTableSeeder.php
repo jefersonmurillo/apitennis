@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use App\Models\TipoDocumento;
 
 class TipoDocumentoTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class TipoDocumentoTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        TipoDocumento::truncate();
+        TipoDocumento::create(
+            ['tipo' => 'CEDULA DE CIUDADANIA'],
+            ['tipo' => 'CEDULA DE EXTRANGERIA'],
+            ['tipo' => 'PASAPORTE']
+        );
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Database\Seeder;
+USE App\Models\TipoUsuario;
 
 class TipoUsuarioTableSeeder extends Seeder
 {
@@ -11,6 +12,11 @@ class TipoUsuarioTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        TipoUsuario::truncate();
+        TipoUsuario::create(
+            ['tipo' => 'AFILIADO'],
+            ['tipo' => 'ADMINISTRATIVO'],
+            ['tipo' => 'GOLFISTA']
+        );
     }
 }
