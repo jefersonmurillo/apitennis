@@ -7,6 +7,7 @@
 
 @section('contenido')
     <section class="content">
+        <div id="alerta"></div>
         <div class="box">
             <div class="box-header">
                 <h3 class="box-title">Disciplinas</h3>

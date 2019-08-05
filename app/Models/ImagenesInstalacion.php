@@ -29,6 +29,6 @@ class ImagenesInstalacion extends Model
      */
     public function instalacion()
     {
-        return $this->belongsTo('App\Model\Instalacion');
+        return $this->belongsTo(Instalacion::class, 'instalacion_id');
     }
 }

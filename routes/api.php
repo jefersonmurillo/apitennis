@@ -3,11 +3,11 @@
 use App\Models;
 
 Route::group(['prefix' => 'auth'], function () {
-    Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
-    Route::post('refresh', 'AuthController@refresh');
-    Route::post('me', 'AuthController@me');
-    Route::post('payload', 'AuthController@payload');
+    Route::post('login', 'AuthJWTController@login');
+    Route::post('logout', 'AuthJWTController@logout');
+    Route::post('refresh', 'AuthJWTController@refresh');
+    Route::post('me', 'AuthJWTController@me');
+    Route::post('payload', 'AuthJWTController@payload');
 });
 
 Route::group(['prefix' => 'v1'], function () {
@@ -25,7 +25,7 @@ Route::group(['prefix' => 'v1'], function () {
      *********************** TIPOS DE INSTALACION *************************
      */
     Route::get('tipoInstalacion', function () {
-        return ['status' => 'ok', 'data' => Models\TipoInstalacion::with(['instalacions'])->get()->toArray(), 'message' => 'Consulta Exitosa'];
+        return ['status' => 'ok', 'data' => Models\TipoInstalacion::with(['instalacions.imagenesInstalacions'])->get()->toArray(), 'message' => 'Consulta Exitosa'];
     });
     Route::get('tipoInstalacion/{id}', function ($id) {
         return ['status' => 'ok', 'data' => Models\TipoInstalacion::where(['id' => $id])->with(['instalacions.imagenesInstalacions'])->get()->toArray()[0], 'message' => 'Consulta Exitosa'];

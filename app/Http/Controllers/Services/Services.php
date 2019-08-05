@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Services;
 
 use App\Models\Disciplina;
 use App\Models\Evento;
+use App\Models\Instalacion;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -16,7 +17,7 @@ class Services extends Controller
     {
         return response()->json([
             'status' => 'ok',
-            'data' => Evento::with(['prioridad', 'tipoEvento', 'imagenesEventos'])->get()->toArray(),
+            'data' => Instalacion::with(['disciplina', 'tipoInstalacion', 'imagenesInstalacions'])->get()->toArray(),
             'message' => 'Consulta Exitosa'
         ]);
     }

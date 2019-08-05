@@ -27,15 +27,7 @@ class Instalacion extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'tipo_instalacion_id', 'disciplina_id', 'nombre', 'descripcion', 'imagen_destacada'];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function disciplina()
-    {
-        return $this->belongsTo(Disciplina::class, 'disciplina_id');
-    }
+    protected $fillable = ['id', 'tipo_instalacion_id', 'nombre', 'descripcion', 'imagen_destacada'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

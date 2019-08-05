@@ -5,14 +5,14 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AuthController extends Controller
+class AuthJWTController extends Controller
 {
     /**
      * Create a new AuthController instance.
      */
     public function __construct()
     {
-        $this->middleware('guest', ['only' => 'showLoginForm']);
+        $this->middleware('jwt', ['except' => ['login']]);
     }
 
     /**
@@ -24,13 +24,15 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
-        if (Auth::guard('web')->attempt($credentials))
-        {
-            return redirect()->route('home');
+        if (!$token = Auth::guard('api')->attempt($credentials)) {
+            return response()->json([
+                'status' => 'error',
+                'data' => [$credentials],
+                'message' => 'Credenciales invalidas'
+            ], 401);
         }
-        return back()
-            ->withErrors(['email' => 'Estas credenciales no son validas'])
-            ->withInput(request(['email']));
+
+        return $this->respondWithToken($token);
     }
 
     /**
@@ -89,3 +91,4 @@ class AuthController extends Controller
         ]);
     }
 }
+

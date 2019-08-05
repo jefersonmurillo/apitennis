@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "2efe8912d465e548d653473f31395a70",
+    "content-hash": "7636445f57551284076ce013f7013e56",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -4237,6 +4237,52 @@
                 "xunit"
             ],
             "time": "2018-10-23T05:57:41+00:00"
+        },
+        {
+            "name": "schwarzer/laravel-mysql-to-seeder",
+            "version": "v0.9.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SchwarzerIT/laravel-mysql-to-seeder.git",
+                "reference": "a9a50740375fc9508950020673514c6b6344cbe6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SchwarzerIT/laravel-mysql-to-seeder/zipball/a9a50740375fc9508950020673514c6b6344cbe6",
+                "reference": "a9a50740375fc9508950020673514c6b6344cbe6",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.6"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Schwarzer\\LaravelHelper\\MySQLToSeeder\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "André Schwarzer",
+                    "role": "Developer",
+                    "email": "andre@schwarzer.it",
+                    "homepage": "https://www.schwarzer.it"
+                }
+            ],
+            "description": "MySQL to Laravel >5.1 Seeder",
+            "keywords": [
+                "laravel",
+                "mysql",
+                "seeder"
+            ],
+            "time": "2018-09-25T16:22:37+00:00"
         },
         {
             "name": "sebastian/code-unit-reverse-lookup",

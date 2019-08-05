@@ -6,12 +6,13 @@ use App\Models\CategoriaGolfista;
 use App\Models\EstadosUsers;
 use App\Models\TipoDocumento;
 use App\Models\TipoUsuario;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 
-class User extends Authenticatable implements JWTSubject
+class User extends Authenticatable implements JWTSubject, MustVerifyEmail
 {
     use Notifiable;
     use SoftDeletes;

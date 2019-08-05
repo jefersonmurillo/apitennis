@@ -8,6 +8,8 @@
 
 @section('contenido')
     <section class="content">
+        <div id="alerta"></div>
+
         <form id="form-registro-afiliados" role="form" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">

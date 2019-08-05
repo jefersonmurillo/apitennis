@@ -26,15 +26,42 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    @foreach($afiliados as $afiliado)
+                        <tr>
+                            <td>{{ $afiliado['codigo_afiliado'] }}</td>
+                            <td>{{ $afiliado['nombres'] }}</td>
+                            <td>{{ $afiliado['apellidos'] }}</td>
+                            <td>{{ $afiliado['telefono'] }}</td>
+                            <td>
+                                <span class="pull-right-container">
+                                     @if($afiliado['email_verified_at'] == null)
+                                        <small class="label pull-right bg-yellow">No verificado</small>
+                                    @else
+                                        <small class="label pull-right bg-green">Verificado</small>
+                                    @endif
+                                </span>
+                                {{ $afiliado['email'] }}
+                            </td>
+                            <td>{{ $afiliado['tipo_usuario']['tipo'] }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-warning">Opciones</button>
+                                    <button type="button" class="btn btn-warning dropdown-toggle"
+                                            data-toggle="dropdown">
+                                        <span class="caret"></span>
+                                        <span class="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li><a href="{{ env('APP_URL') }}/afiliados/{{ $afiliado['id'] }}">Ver datos</a>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li><a href="#" onclick="eliminarAfiliado('{{$afiliado['id']}}')">Eliminar</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
 
                     </tbody>
                     <tfoot>

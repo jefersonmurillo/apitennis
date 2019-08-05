@@ -98,7 +98,9 @@ class AfiliadoController extends Controller
             'tipo_usuario_id' => $tipo_usuario
         ]);
 
-        return $usuario->save() ? response()->json([true], 200) : response()->json([false], 500);
+        return $usuario->save() ?
+            response()->json(['respuesta' => 'Información guardada', 'status' => 200], 200)
+            : response()->json(['respuesta' => 'Error', 'status' => 500], 500);
     }
 
     private function validarRequestAfiliados(Request $request)

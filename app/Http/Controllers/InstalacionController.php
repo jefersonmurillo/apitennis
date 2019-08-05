@@ -15,6 +15,10 @@ class InstalacionController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(){
+        \JavaScript::put([
+            'disciplinas' => Disciplina::all()->toArray(),
+        ]);
+
         return view('administrador.instalaciones.registro', [
             'tiposInstalacion' => TipoInstalacion::all()->toArray(),
             'disciplinas' => Disciplina::all()->toArray(),

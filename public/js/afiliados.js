@@ -19,59 +19,93 @@ $(function () {
 
     $('#form-registro-afiliados').submit(function (e) {
         e.preventDefault();
-        let nombres = $('#nombres').val();
-        let apellidos = $('#apellidos').val();
-        let tipo_documento = $('#tipo-documento').val();
-        let documento = $('#documento').val();
-        let email = $('#email').val();
-        let fecha_nacimiento = $('#fecha-nacimiento').val();
-        let genero = $('#genero').val();
-        let telefono = $('#telefono').val();
-        let tipo_usuario = $('#tipo-usuario').val();
-        let codigo_afiliado = $('#codigo-afiliado').val();
-        let categoria_golfista = $('#categoria-golfista').val();
-        let codigo_golfista = $('#codigo-golfista').val();
-        let direccion = $('#direccion').val();
+        Swal.fire({
+            title: 'Seguro que desea guardar esta información?',
+            text: 'Se guardarán datos personales del usaurio',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si, guardar!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.value) {
+                let nombres = $('#nombres').val();
+                let apellidos = $('#apellidos').val();
+                let tipo_documento = $('#tipo-documento').val();
+                let documento = $('#documento').val();
+                let email = $('#email').val();
+                let fecha_nacimiento = $('#fecha-nacimiento').val();
+                let genero = $('#genero').val();
+                let telefono = $('#telefono').val();
+                let tipo_usuario = $('#tipo-usuario').val();
+                let codigo_afiliado = $('#codigo-afiliado').val();
+                let categoria_golfista = $('#categoria-golfista').val();
+                let codigo_golfista = $('#codigo-golfista').val();
+                let direccion = $('#direccion').val();
 
-        if (nombres.length < 1 || apellidos.length < 1 || parseInt(tipo_documento) === 0 || documento.length < 1 ||
-            email.length < 1 || fecha_nacimiento.length < 1 || parseInt(genero) === 0 ||
-            telefono.length < 1 || parseInt(tipo_usuario) === 0) {
+                if (nombres.length < 1 || apellidos.length < 1 || parseInt(tipo_documento) === 0 || documento.length < 1 ||
+                    email.length < 1 || fecha_nacimiento.length < 1 || parseInt(genero) === 0 ||
+                    telefono.length < 1 || parseInt(tipo_usuario) === 0) {
+                    $('#alerta').empty().append('' +
+                        '<div class="alert alert-warning alert-dismissible">\n' +
+                        '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                        '    <h4><i class="icon fa fa-warning"></i> Datos incorrectos! por favor revisan la información suministrada.</h4>\n' +
+                        '</div>');
+                    return false;
+                }
 
-        }
+                let data = {
+                    '_token': $("input:hidden[name='_token']").val(),
+                    nombres: nombres,
+                    apellidos: apellidos,
+                    tipo_documento: tipo_documento,
+                    documento: documento,
+                    email: email,
+                    fecha_nacimiento: fecha_nacimiento,
+                    genero: genero,
+                    telefono: telefono,
+                    tipo_usuario: tipo_usuario,
+                    codigo_afiliado: codigo_afiliado,
+                    categoria_golfista: categoria_golfista,
+                    codigo_golfista: codigo_golfista,
+                    direccion: direccion,
+                    id: user !== undefined ? user['id'] : null
+                };
 
-        let data = {
-            '_token': $("input:hidden[name='_token']").val(),
-            nombres: nombres,
-            apellidos: apellidos,
-            tipo_documento: tipo_documento,
-            documento: documento,
-            email: email,
-            fecha_nacimiento: fecha_nacimiento,
-            genero: genero,
-            telefono: telefono,
-            tipo_usuario: tipo_usuario,
-            codigo_afiliado: codigo_afiliado,
-            categoria_golfista: categoria_golfista,
-            codigo_golfista: codigo_golfista,
-            direccion: direccion,
-            id: user !== undefined ? user['id'] : null
-        };
+                let url = user === undefined ? '/afiliados' : '/afiliados/' + user['id'];
+                let method = user === undefined ? 'post' : 'put';
 
-        let url = user === undefined ? '/afiliados' : '/afiliados/' + user['id'];
-        let method = user === undefined ? 'post' : 'put';
+                $.ajax({
+                    type: method,
+                    url: url,
+                    data: data,
+                    success: function (res) {
+                        $('#alerta').empty().append('' +
+                            '<div class="alert alert-success alert-dismissible">\n' +
+                            '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            '    <h4><i class="icon fa fa-check"></i> Operación Exitosa!, información guardada</h4>\n' +
+                            '</div>');
 
-        console.log(url);
-        console.log(method);
-        console.log(data);
-        $.ajax({
-            type: method,
-            url: url,
-            data: data,
-            success: function (res) {
-                console.log(res);
-            },
-            error: function (xhr, ajaxOptions, thrownError) {
-                console.log(thrownError, xhr);
+                        Swal.fire(
+                            'Operación Exitosa!',
+                            'Inforamación guardada.',
+                            'success'
+                        );
+                        if(user === undefined)limpiarFormulario();
+
+                        console.log(res);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(xhr);
+                        $('#alerta').empty().append('' +
+                            '<div class="alert alert-danger alert-dismissible">\n' +
+                            '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            '    <h4><i class="icon fa fa-ban"></i> Error... Algo salío mal, intentalo nuevamente</h4>\n' +
+                            '    Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire\n' +
+                            '    soul, like these sweet mornings of spring which I enjoy with my whole heart.\n' +
+                            '</div>');
+                        Swal.fire('Error..', 'Algo salío mal, intentalo nuevamente', 'error');
+                    }
+                });
             }
         });
 
@@ -147,16 +181,47 @@ function cargarDatosGolfista() {
 }
 
 function eliminarAfiliado(id) {
-    $.ajax({
-        type: 'delete',
-        url: '/afiliados/' + id,
-        data: {'_token': $("input:hidden[name='_token']").val()},
-        success: function (res) {
-            console.log(res);
-        },
-        error: function (xhr, ajaxOptions, thrownError) {
-            console.log(thrownError, xhr);
+    Swal.fire({
+        title: 'Está seguro?',
+        text: 'Se eliminará el usuario seleccionado!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+            $.ajax({
+                type: 'delete',
+                url: '/afiliados/' + id,
+                data: {'_token': $("input:hidden[name='_token']").val()},
+                success: function (res) {
+                    console.log(res);
+                    Swal.fire(
+                        'Usuario eliminado!',
+                        'Los datos del usuario han sido borrados.',
+                        'success'
+                    );
+
+                    setTimeout(function(){location.reload()}, 1500);
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    console.log(thrownError, xhr);
+                }
+            });
         }
     });
+
     return false;
+}
+
+function limpiarFormulario(){
+    $('#nombres').val('');
+    $('#apellidos').val('');
+    $('#documento').val('');
+    $('#email').val('');
+    $('#fecha-nacimiento').val('');
+    $('#telefono').val('');
+    $('#codigo-afiliado').val('');
+    $('#codigo-golfista').val('');
+    $('#direccion').val('');
 }

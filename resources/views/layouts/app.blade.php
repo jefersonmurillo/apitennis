@@ -60,7 +60,7 @@
 <script src="{{ asset('template/bower_components/jquery-ui/jquery-ui.min.js') }}"></script>
 <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
 <script>
-    Swal.fire({
+    /*Swal.fire({
         title: 'Are you sure?',
         text: 'You will not be able to recover this imaginary file!',
         type: 'warning',
@@ -83,7 +83,7 @@
                 'error'
             )
         }
-    })
+    })*/
     $.widget.bridge('uibutton', $.ui.button);
 </script>
 <!-- Bootstrap 3.3.7 -->

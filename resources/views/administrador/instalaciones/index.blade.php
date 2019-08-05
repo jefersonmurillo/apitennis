@@ -26,30 +26,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    @foreach($afiliados as $afiliado)
-                        <tr>
-                            <td>{{ $afiliado['codigo_afiliado'] }}</td>
-                            <td>{{ $afiliado['nombres'] }}</td>
-                            <td>{{ $afiliado['apellidos'] }}</td>
-                            <td>{{ $afiliado['telefono'] }}</td>
-                            <td>{{ $afiliado['email'] }}</td>
-                            <td>{{ $afiliado['tipo_usuario']['tipo'] }}</td>
-                            <td>
-                                <div class="btn-group">
-                                    <button type="button" class="btn btn-warning">Opciones</button>
-                                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown">
-                                        <span class="caret"></span>
-                                        <span class="sr-only">Toggle Dropdown</span>
-                                    </button>
-                                    <ul class="dropdown-menu" role="menu">
-                                        <li><a href="{{ env('APP_URL') }}/afiliados/{{ $afiliado['id'] }}">Ver datos</a></li>
-                                        <li class="divider"></li>
-                                        <li><a href="#" onclick="eliminarAfiliado('{{$afiliado['id']}}')">Eliminar</a></li>
-                                    </ul>
-                                </div>
-                            </td>
-                        </tr>
-                    @endforeach
+
 
                     </tbody>
                     <tfoot>
