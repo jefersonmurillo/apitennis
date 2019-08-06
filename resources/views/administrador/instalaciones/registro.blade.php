@@ -6,7 +6,7 @@
 
 @section('contenido')
     <section class="content">
-        <form id="form-registro-afiliados" role="form" enctype="multipart/form-data">
+        <form id="form-registro-instalacion" role="form" enctype="multipart/form-data" method="post" action="{{ route('instalaciones.store') }}">
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
@@ -15,6 +15,7 @@
                         </div>
                         <!-- /.box-header -->
                         <div class="box-body" id="box-body">
+
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label>Nombres</label>
@@ -51,7 +52,16 @@
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Imagen destacada</label>
-                                    <input type="file" id="imagenDesatacada" name="img-destacada" required>
+                                    <input accept="image/*" onchange="loadFile(event)" type="file" id="imagenDesatacada"
+                                           name="img-destacada" required>
+
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <div class="form-group">
+                                    <a class="btn btn-app" style="padding-top: 1px; padding-bottom: 1px; height: 37px;" onclick="$('#modalPreview').modal().show();">
+                                        <i class="fa fa-play"></i> Vista Previa
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -60,10 +70,7 @@
             </div>
         </form>
 
-        {{-- Se usa para cargar las imagenes de las instalaciones --}}
-        <div id="imagenesIntalacion"></div>
-
-        <div class="row">
+        {{--<div class="row">
             <div class="col-md-12">
                 <div class="box">
                     <div class="box-body">
@@ -145,60 +152,7 @@
                     </div>
                 </div>
             </div>
-        </div>
-
-        {{-- Se usa para mostar la zona de carga de imagenes solo cuando se ha registrado la instalación --}}
-        <div id="zoneFilesUlpoad"></div>
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box">
-                    <div class="box-body">
-                        <p>
-                            Haga click y selecione los certificados, cada uno no mayor a 2.5MB de tamaño. Cada
-                            archivo debe tener como nombre el documento de indentidad del participante sin comas ni
-                            puntos.
-                        </p>
-                        <form action="../certificacion/upload" method="post" onload="alert('Hola')" class="dropzone"
-                              id="dropzone_example">
-                            {{ csrf_field() }}
-                            <input id="id_evento" type="hidden" name="id">
-                            <div class="fallback">
-                                <input accept=".pdf" name="file" type="file" multiple/>
-                            </div>
-                        </form>
-
-                        <div id="dze_info" class="hidden">
-                            <br/>
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <div class="panel-title">Información de carga de archivos</div>
-                                </div>
-
-                                <table class="table table-bordered">
-                                    <thead>
-                                    <tr>
-                                        <th width="40%">Nombres</th>
-                                        <th width="15%">Tamaño</th>
-                                        <th width="15%">Tipo</th>
-                                        <th>Estado</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    </tbody>
-                                    <tfoot>
-                                    <tr>
-                                        <td colspan="4"></td>
-                                    </tr>
-                                    </tfoot>
-                                </table>
-                            </div>
-                        </div>
-                        <br/>
-                    </div>
-                </div>
-            </div>
-        </div>
+        </div>--}}
 
         <div class="row">
             <div class="col-md-12">
@@ -220,11 +174,113 @@
             </div>
         </div>
 
+        {{-- Modal preview imagen principal --}}
+        <div class="modal fade" id="modalPreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Imagen destacada</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <img id="output" src="" alt="" width="100%" height="100%">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        {{-- Modal FileUpload --}}
+        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Actualizar Disciplina</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="box">
+                                    <div class="box-body">
+                                        <p>
+                                            Haga click y selecione las imagenes de las instalaciones, cada uno no mayor
+                                            a 2.5MB de
+                                            tamaño.
+                                        </p>
+                                        <form action="../certificacion/upload" method="post" class="dropzone"
+                                              id="dropzone_example">
+                                            {{ csrf_field() }}
+                                            <input id="id_instalacion" type="hidden" name="id_instalación">
+                                            <div class="fallback">
+                                                <input accept=".pdf" name="file" type="file" multiple/>
+                                            </div>
+                                        </form>
+
+                                        <div id="dze_info" class="hidden">
+                                            <br/>
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading">
+                                                    <div class="panel-title">Información de carga de archivos</div>
+                                                </div>
+
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                    <tr>
+                                                        <th width="40%">Nombres</th>
+                                                        <th width="15%">Tamaño</th>
+                                                        <th width="15%">Tipo</th>
+                                                        <th>Estado</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    </tbody>
+                                                    <tfoot>
+                                                    <tr>
+                                                        <td colspan="4"></td>
+                                                    </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="btn btn-primary" value="Actualizar">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
 
 @section('js')
     <link rel="stylesheet" href="{{ asset('plugins/dropzone/dropzone.css') }}">
     <script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script>
+    <script>
+        function loadFile(event) {
+            $('#output').attr('src', URL.createObjectURL(event.target.files[0]));
+            $('#modalPreview').modal().show();
+        }
+    </script>
     <script src="{{ asset('js/instalaciones.js') }}"></script>
 @endsection
