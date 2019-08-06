@@ -7,6 +7,8 @@ use App\Models\Instalacion;
 use App\Models\TipoInstalacion;
 use Illuminate\Http\Request;
 
+use Image;
+
 class InstalacionController extends Controller
 {
     /**
@@ -14,7 +16,8 @@ class InstalacionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         \JavaScript::put([
             'disciplinas' => Disciplina::all()->toArray(),
         ]);
@@ -38,18 +41,42 @@ class InstalacionController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        if (!$request->has('imgDestacada') OR !$request->has('nombre') OR !$request->has('tipo') OR !$request->has('descripcion'))
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 200, 'data' => [
+                $request->toArray()
+            ]], 200);
+
+        $img = $request->get('imgDestacada');
+        $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
+
+        $imgp = Image::make($info);
+        $imgp->save(public_path('storage/instalaciones/' . $request->get('nombre') . '.png'));
+
+        $nombres = $request->get('nombre');
+        $tipo = $request->get('tipo');
+        $descripcion = $request->get('descripcion');
+
+        $instalacion = new Instalacion([
+            'nombre' => $nombres,
+            'tipo_instalacion_id' => $tipo,
+            'descripcion' => $descripcion,
+            'imagen_destacada' => 'storage/instalaciones/' . $request->input('nombre') . '.png'
+        ]);
+
+        return $instalacion->save() ?
+            response()->json(['respuesta' => 'Información guardada', 'status' => 200], 200)
+            : response()->json(['respuesta' => 'Error', 'status' => 500], 500);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -60,7 +87,7 @@ class InstalacionController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -71,8 +98,8 @@ class InstalacionController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -83,7 +110,7 @@ class InstalacionController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

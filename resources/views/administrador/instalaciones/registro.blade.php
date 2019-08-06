@@ -6,7 +6,7 @@
 
 @section('contenido')
     <section class="content">
-        <form id="form-registro-instalacion" role="form" enctype="multipart/form-data" method="post" action="{{ route('instalaciones.store') }}">
+        <form id="form-registro-instalacion" role="form" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-md-12">
                     <div class="box box-warning">
@@ -45,25 +45,46 @@
                                 <div class="form-group">
                                     <label>Descripciónes</label>
                                     <textarea class="form-control" rows="3"
-                                              placeholder="Ingrese una breve descripción de la instalación ..."></textarea>
+                                              placeholder="Ingrese una breve descripción de la instalación ..." id="descripcion"></textarea>
                                 </div>
                             </div>
 
                             <div class="col-sm-6">
                                 <div class="form-group">
                                     <label for="exampleInputFile">Imagen destacada</label>
-                                    <input accept="image/*" onchange="loadFile(event)" type="file" id="imagenDesatacada"
+                                    <input accept="image/*" type="file" id="imagenDesatacada"
                                            name="img-destacada" required>
-
+                                    <input type="hidden" name="imgdestacada" id="imgdestacada">
                                 </div>
                             </div>
                             <div class="col-sm-6">
                                 <div class="form-group">
-                                    <a class="btn btn-app" style="padding-top: 1px; padding-bottom: 1px; height: 37px;" onclick="$('#modalPreview').modal().show();">
+                                    <a class="btn btn-app" style="padding-top: 1px; padding-bottom: 1px; height: 37px;"
+                                       onclick="$('#modalPreview').modal().show();">
                                         <i class="fa fa-play"></i> Vista Previa
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="box">
+                        <div class="box-body">
+                            <form role="form">
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="form-group">
+                                            <input type="submit"
+                                                   value="{{ isset($afiliado) ? 'Actualizar' : 'Registrar'}}"
+                                                   class="btn btn-block btn-success">
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -153,26 +174,6 @@
                 </div>
             </div>
         </div>--}}
-
-        <div class="row">
-            <div class="col-md-12">
-                <div class="box">
-                    <div class="box-body">
-                        <form role="form">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <div class="form-group">
-                                        <input type="submit"
-                                               value="{{ isset($afiliado) ? 'Actualizar' : 'Registrar'}}"
-                                               class="btn btn-block btn-success">
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
 
         {{-- Modal preview imagen principal --}}
         <div class="modal fade" id="modalPreview" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -276,11 +277,5 @@
 @section('js')
     <link rel="stylesheet" href="{{ asset('plugins/dropzone/dropzone.css') }}">
     <script src="{{ asset('plugins/dropzone/dropzone.js') }}"></script>
-    <script>
-        function loadFile(event) {
-            $('#output').attr('src', URL.createObjectURL(event.target.files[0]));
-            $('#modalPreview').modal().show();
-        }
-    </script>
     <script src="{{ asset('js/instalaciones.js') }}"></script>
 @endsection

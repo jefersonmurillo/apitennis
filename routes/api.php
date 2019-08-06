@@ -39,14 +39,15 @@ Route::group(['prefix' => 'v1'], function () {
     });
 });
 
+Route::group(['prefix' => 'v1/jugadores'], function () {
+    Route::post('/obtenerGolfista', 'Services\Services@obtenerJugadorGolf');
+});
+
+
 Route::group(['prefix' => 'v1/instalaciones'], function () {
     Route::get('/', 'Services\Services@obtenerInstalaciones');
 });
 
 Route::group(['prefix' => 'v1/eventos'], function () {
     Route::get('/', 'Services\Services@obtenerEventos');
-});
-
-Route::get('x', function () {
-    return date("M. j Y", strtotime("2019-08-02"));
 });
