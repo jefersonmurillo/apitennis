@@ -14,60 +14,61 @@ $(function () {
             confirmButtonText: 'Si, guardar!',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
-            let disciplina = $('#nombre_disciplina').val();
-            let id = $('#id_disciplina').val();
-            let token = $("input:hidden[name='_token']").val();
-            let data = {
-                '_token': token,
-                id: id,
-                disciplina: disciplina
-            };
+            if (result.value) {
+                let disciplina = $('#nombre_disciplina').val();
+                let id = $('#id_disciplina').val();
+                let token = $("input:hidden[name='_token']").val();
+                let data = {
+                    '_token': token,
+                    id: id,
+                    disciplina: disciplina
+                };
 
-            if (disciplina === '') {
-                $('#alerta').empty().append('' +
-                    '<div class="alert alert-warning alert-dismissible">\n' +
-                    '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
-                    '    <h4><i class="icon fa fa-warning"></i> Datos incorrectos! por favor revisan la información suministrada.</h4>\n' +
-                    '</div>');
-                return false;
+                if (disciplina === '') {
+                    $('#alerta').empty().append('' +
+                        '<div class="alert alert-warning alert-dismissible">\n' +
+                        '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                        '    <h4><i class="icon fa fa-warning"></i> Datos incorrectos! por favor revisan la información suministrada.</h4>\n' +
+                        '</div>');
+                    return false;
+                }
+
+                if (id !== undefined) console.log('post'); else console.log('put');
+
+                $.ajax({
+                    type: id === undefined || id === '' ? 'post' : 'put',
+                    url: '/disciplinas/' + id,
+                    data: data,
+                    success: function (res) {
+                        console.log(res);
+                        $('#alerta').empty().append('' +
+                            '<div class="alert alert-success alert-dismissible">\n' +
+                            '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            '    <h4><i class="icon fa fa-check"></i> Operación Exitosa!, información guardada</h4>\n' +
+                            '</div>');
+
+                        Swal.fire(
+                            'Operación Exitosa!',
+                            'Inforamación guardada.',
+                            'success'
+                        );
+
+                        setTimeout(function () {
+                            location.reload()
+                        }, 1500);
+                    },
+                    error: function (xhr, ajaxOptions, thrownError) {
+                        console.log(thrownError, xhr);
+                        $('#alerta').empty().append('' +
+                            '<div class="alert alert-danger alert-dismissible">\n' +
+                            '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
+                            '    <h4><i class="icon fa fa-ban"></i> Error... Algo salío mal, intentalo nuevamente</h4>\n' +
+                            '</div>');
+                        Swal.fire('Error..', 'Algo salío mal, intentalo nuevamente', 'error');
+                    }
+                });
             }
 
-            if (id !== undefined) console.log('post'); else console.log('put');
-
-            $.ajax({
-                type: id === undefined || id === '' ? 'post' : 'put',
-                url: '/disciplinas/' + id,
-                data: data,
-                success: function (res) {
-                    console.log(res);
-                    $('#alerta').empty().append('' +
-                        '<div class="alert alert-success alert-dismissible">\n' +
-                        '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
-                        '    <h4><i class="icon fa fa-check"></i> Operación Exitosa!, información guardada</h4>\n' +
-                        '</div>');
-
-                    Swal.fire(
-                        'Operación Exitosa!',
-                        'Inforamación guardada.',
-                        'success'
-                    );
-
-                    setTimeout(function () {
-                        location.reload()
-                    }, 1500);
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                    console.log(thrownError, xhr);
-                    $('#alerta').empty().append('' +
-                        '<div class="alert alert-danger alert-dismissible">\n' +
-                        '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +
-                        '    <h4><i class="icon fa fa-ban"></i> Error... Algo salío mal, intentalo nuevamente</h4>\n' +
-                        '    Danger alert preview. This alert is dismissable. A wonderful serenity has taken possession of my entire\n' +
-                        '    soul, like these sweet mornings of spring which I enjoy with my whole heart.\n' +
-                        '</div>');
-                    Swal.fire('Error..', 'Algo salío mal, intentalo nuevamente', 'error');
-                }
-            });
         });
 
         return false;

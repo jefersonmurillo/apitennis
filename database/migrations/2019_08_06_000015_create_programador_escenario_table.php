@@ -26,7 +26,7 @@ class CreateProgramadorEscenarioTable extends Migration
             $table->integer('escenario_id')->unsigned();
             $table->integer('grupo_jugadores_golf')->unsigned();
             $table->date('fecha');
-            $table->time('hora', 45);
+            $table->time('hora', 6);
             $table->string('estado', 45)->comment('DISPONIBLE - RESERVADO - APROBADO');
             $table->timestamps();
             $table->softDeletes();

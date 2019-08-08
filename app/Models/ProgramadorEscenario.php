@@ -16,13 +16,18 @@ class ProgramadorEscenario extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'disciplina_id'];
+    protected $fillable = ['id', 'escenario_id', 'grupo_jugadores_golf', 'fecha', 'hora', 'estado'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function disciplina()
+    public function escenario()
     {
-        return $this->belongsTo(Disciplina::class, 'disciplina_id');
+        return $this->belongsTo(Escenario::class, 'escenario_id');
+    }
+
+    public function grupoJugadoresGolf()
+    {
+        return $this->belongsTo(GrupoJugadoresGolf::class, 'grupo_jugadores_golf');
     }
 }

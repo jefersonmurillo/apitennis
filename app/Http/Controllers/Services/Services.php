@@ -89,4 +89,14 @@ class Services extends Controller
         ], 200);
     }
 
+    /* ************************************ DISCIPLINAS ***********************************/
+
+    public function obtenerDisciplinas(){
+        return response()->json([
+            'status' => 'ok',
+            'data' => Disciplina::all()->toArray(),
+            'message' => 'Consulta Exitosa'
+        ], 200);
+    }
+
 }

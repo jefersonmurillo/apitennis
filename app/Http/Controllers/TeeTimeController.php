@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Escenario;
 use Illuminate\Http\Request;
 
 class TeeTimeController extends Controller
@@ -13,7 +14,7 @@ class TeeTimeController extends Controller
      */
     public function index()
     {
-        //
+
     }
 
     /**
@@ -23,7 +24,7 @@ class TeeTimeController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -80,5 +81,28 @@ class TeeTimeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function registrarEscenario(Request $request){
+        if(!$request->has('nombre') OR !$request->has('disciplina'))
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400, 'data' => [
+                $request->toArray()
+            ]], 400);
+
+        $nombre = $request->get('nombre');
+        $disciplina = $request->get('disciplina');
+
+        if($request->has('id')){
+            $result = Escenario::where(['id' => $request->get('id')])->update(['nombre' => $nombre, 'disciplina_id' => $disciplina]);
+        }else {
+            $escenario = new Escenario(['nombre' => $nombre, 'disciplina_id' => $disciplina]);
+            $result = $escenario->save();
+        }
+
+        return $result ? response()->json([
+            'respuesta' => 'Información guardada',
+            'status' => 200,
+            'data' => [$request->toArray()]], 200)
+            : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(),'status' => 500], 500);
     }
 }

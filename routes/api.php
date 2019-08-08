@@ -22,6 +22,12 @@ Route::group(['prefix' => 'v1'], function () {
     });
 
     /**
+     *********************** DISCIPLINAS *************************
+     */
+
+    Route::get('disciplinas', 'Services\Services@obtenerDisciplinas');
+
+    /**
      *********************** TIPOS DE INSTALACION *************************
      */
     Route::get('tipoInstalacion', function () {

@@ -53,9 +53,9 @@ class InstalacionController extends Controller
     public function store(Request $request)
     {
         if (!$request->has('imgDestacada') OR !$request->has('nombre') OR !$request->has('tipo') OR !$request->has('descripcion'))
-            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 200, 'data' => [
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400, 'data' => [
                 $request->toArray()
-            ]], 200);
+            ]], 400);
 
         $img = $request->get('imgDestacada');
         $info = base64_decode(preg_replace('#^data:image/\w+;base64,#i', '', $img));
