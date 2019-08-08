@@ -34,7 +34,7 @@
                 </ul>
             </li>
 
-            <li class="treeview">
+            <li class="active treeview">
                 <a href="">
                     <i class="fa fa-th"></i> <span>Instalaciones</span>
                     <span class="pull-right-container">
@@ -45,6 +45,17 @@
                     <li><a href="{{ route('instalaciones.index') }}"><i class="fa fa-circle-o"></i>Listado de instalaciones</a></li>
                     <li class="active"><a href="{{ route('disciplinas.index') }}"><i class="fa fa-circle-o"></i>Disciplinas</a></li>
                     <li><a href="index2.html"><i class="fa fa-circle-o"></i>Tipos de instalaciones</a></li>
+                </ul>
+            </li>
+
+            <li class="active treeview">
+                <a href="#">
+                    <i class="fa fa-th"></i> <span>Tee-Time</span>
+                    <span class="pull-right-container">
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="{{ route('tee-time.index') }}"><i class="fa fa-circle-o"></i>Programador</a></li>
                 </ul>
             </li>
 

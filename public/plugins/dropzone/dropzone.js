@@ -1396,7 +1396,7 @@ require.register("dropzone/lib/dropzone.js", function(exports, require, module){
           }
         }
         updateProgress();
-        console.log(xhr.status);
+        console.log(xhr);
         if (!((200 <= (_ref = xhr.status) && _ref < 300))) {
           return handleError();
         } else {

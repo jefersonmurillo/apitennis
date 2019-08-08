@@ -39,8 +39,8 @@ Route::group(['prefix' => 'v1'], function () {
     });
 });
 
-Route::group(['prefix' => 'v1/jugadores'], function () {
-    Route::post('/obtenerGolfista', 'Services\Services@obtenerJugadorGolf');
+Route::group(['prefix' => 'v1/tee-time'], function () {
+    Route::post('/obtenerGolfistas', 'Services\Services@obtenerJugadoresGolf');
 });
 
 

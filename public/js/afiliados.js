@@ -96,6 +96,8 @@ $(function () {
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         console.log(xhr);
+                        console.log(ajaxOptions);
+                        console.log(thrownError);
                         $('#alerta').empty().append('' +
                             '<div class="alert alert-danger alert-dismissible">\n' +
                             '    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>\n' +

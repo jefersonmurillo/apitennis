@@ -53,20 +53,38 @@ class Services extends Controller
 
     /* ************************************ JUGADORES ***********************************/
 
-    public function obtenerJugadorGolf(Request $request)
+    public function obtenerJugadoresGolf(Request $request)
     {
-        $jugador = User::where(['codigo_golfista' => $request->get('codigo_golfista'), 'estado_users_id' => 1])->get()->toArray();
-        if (count($jugador) < 1){
+        $codigos = json_decode($request->get('codigos'));
+        if (count($codigos) < 3)
             return response()->json([
                 'status' => 'error',
                 'data' => [],
-                'message' => 'No se encontro el jugador'
-            ], 404);
+                'message' => 'Jugadores incompletos'
+            ], 402);
+
+        $data = [];
+
+        foreach ($codigos as $codigo) {
+            $jugador = User::where(['codigo_golfista' => $codigo, 'estado_users_id' => 1])->get()->toArray();
+            if (count($jugador) < 1){
+                array_push($data, [
+                    'status' => 'error',
+                    'data' => [],
+                    'message' => 'No se encontro el jugador'
+                ]);
+            }else{
+                array_push($data, [
+                    'status' => 'ok',
+                    'data' => $jugador[0],
+                    'message' => 'Consulta Exitosa'
+                ]);
+            }
         }
 
         return response()->json([
             'status' => 'ok',
-            'data' => $jugador[0],
+            'data' => $data,
             'message' => 'Consulta Exitosa'
         ], 200);
     }
