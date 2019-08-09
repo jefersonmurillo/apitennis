@@ -14,30 +14,27 @@ class TeeTimeController extends Controller
      */
     public function index()
     {
-
-        $disponibles = [];
-        $aprobadas = [];
-        $desaprobadas = [];
-        $pendientes = [];
-
         $escenarios = Escenario::with(['disciplina', 'programador'])->get()->toArray();
         $data = [];
 
         foreach ($escenarios as $escenario) {
-            $dato = $escenario;
+            $disponibles = [];
+            $aprobadas = [];
+            $desaprobadas = [];
+            $pendientes = [];
             foreach ($escenario['programador'] as $dia) {
                 if ($dia['estado'] == 'RESERVADO') array_push($pendientes, $dia);
                 elseif ($dia['estado'] == 'DESAPROBADO') array_push($desaprobadas, $dia);
-                elseif($dia['estado'] == 'APROBADO') array_push($aprobadas, $dia);
-                elseif($dia['estado'] == 'DISPONIBLE') array_push($disponibles, $dia);
+                elseif ($dia['estado'] == 'APROBADO') array_push($aprobadas, $dia);
+                elseif ($dia['estado'] == 'DISPONIBLE') array_push($disponibles, $dia);
             }
 
-            $dato['disponibles'] = $disponibles;
-            $dato['aprobados'] = $aprobadas;
-            $dato['desaprobados'] = $desaprobadas;
-            $dato['pendientes'] = $pendientes;
+            $escenario['disponibles'] = $disponibles;
+            $escenario['aprobados'] = $aprobadas;
+            $escenario['desaprobados'] = $desaprobadas;
+            $escenario['pendientes'] = $pendientes;
 
-            array_push($data, $dato);
+            array_push($data, $escenario);
         }
 
         return response()->json($data);
@@ -56,7 +53,7 @@ class TeeTimeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -67,18 +64,27 @@ class TeeTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
+     * @param $id
+     * @param $estado
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function show($id)
+    public function show($id, $estado)
     {
-        //
+        if($estado == 'TODOS'){
+            $escenario = Escenario::where(['id' => $id])->with(['disciplina', 'programador'])->get()->toArray()[0];
+        }else{
+            $escenario = Escenario::where(['id' => $id])->with(['disciplina', 'programador' => function($query) use ($estado){
+                $query->where(['estado' => $estado])->get(['id', 'fecha', 'hora', 'estado', 'grupo_jugadores_golf']);
+            }])->get()->toArray()[0];
+        }
+
+        return response()->json($escenario);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -89,8 +95,8 @@ class TeeTimeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
+     * @param \Illuminate\Http\Request $request
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -101,7 +107,7 @@ class TeeTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int $id
+     * @param int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
