@@ -15,6 +15,32 @@ class TeeTimeController extends Controller
     public function index()
     {
 
+        $disponibles = [];
+        $aprobadas = [];
+        $desaprobadas = [];
+        $pendientes = [];
+
+        $escenarios = Escenario::with(['disciplina', 'programador'])->get()->toArray();
+        $data = [];
+
+        foreach ($escenarios as $escenario) {
+            $dato = $escenario;
+            foreach ($escenario['programador'] as $dia) {
+                if ($dia['estado'] == 'RESERVADO') array_push($pendientes, $dia);
+                elseif ($dia['estado'] == 'DESAPROBADO') array_push($desaprobadas, $dia);
+                elseif($dia['estado'] == 'APROBADO') array_push($aprobadas, $dia);
+                elseif($dia['estado'] == 'DISPONIBLE') array_push($disponibles, $dia);
+            }
+
+            $dato['disponibles'] = $disponibles;
+            $dato['aprobados'] = $aprobadas;
+            $dato['desaprobados'] = $desaprobadas;
+            $dato['pendientes'] = $pendientes;
+
+            array_push($data, $dato);
+        }
+
+        return response()->json($data);
     }
 
     /**
@@ -30,7 +56,7 @@ class TeeTimeController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -41,7 +67,7 @@ class TeeTimeController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -52,7 +78,7 @@ class TeeTimeController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -63,8 +89,8 @@ class TeeTimeController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -75,7 +101,7 @@ class TeeTimeController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
@@ -83,8 +109,9 @@ class TeeTimeController extends Controller
         //
     }
 
-    public function registrarEscenario(Request $request){
-        if(!$request->has('nombre') OR !$request->has('disciplina'))
+    public function registrarEscenario(Request $request)
+    {
+        if (!$request->has('nombre') OR !$request->has('disciplina'))
             return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400, 'data' => [
                 $request->toArray()
             ]], 400);
@@ -92,9 +119,9 @@ class TeeTimeController extends Controller
         $nombre = $request->get('nombre');
         $disciplina = $request->get('disciplina');
 
-        if($request->has('id')){
+        if ($request->has('id')) {
             $result = Escenario::where(['id' => $request->get('id')])->update(['nombre' => $nombre, 'disciplina_id' => $disciplina]);
-        }else {
+        } else {
             $escenario = new Escenario(['nombre' => $nombre, 'disciplina_id' => $disciplina]);
             $result = $escenario->save();
         }
@@ -103,6 +130,6 @@ class TeeTimeController extends Controller
             'respuesta' => 'Información guardada',
             'status' => 200,
             'data' => [$request->toArray()]], 200)
-            : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(),'status' => 500], 500);
+            : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(), 'status' => 500], 500);
     }
 }

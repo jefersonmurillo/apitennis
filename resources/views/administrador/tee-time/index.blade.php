@@ -1,5 +1,10 @@
 @extends('administrador.index')
 
+@section('css')
+    <link rel="stylesheet"
+          href="{{ asset('template/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css') }}">
+@endsection
+
 @section('contenido')
     <section class="content">
 
@@ -17,31 +22,7 @@
         </div>
 
         <div class="row">
-            <div class="col-md-4">
-                <!-- Widget: user widget style 1 -->
-                <div class="box box-widget widget-user-2">
-                    <!-- Add the bg color to the header using any of the bg-* classes -->
-                    <div class="widget-user-header bg-green" style="padding: 5px !important;">
-                        <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-remove" style="font-size: 20px;"></i></a>
-                        <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></a>
-                        <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>
-
-                        <!-- /.widget-user-image -->
-                        <h3 class="widget-user-username" onclick="alert('click')">Cancha de Golf</h3>
-                        <h5 class="widget-user-desc" onclick="alert('click')">Disciplina: Golf</h5>
-                    </div>
-                    <div class="box-footer no-padding">
-                        <ul class="nav nav-stacked">
-                            <li><a href="#">Horas programadas esta semana <span class="pull-right badge bg-blue">31</span></a></li>
-                            <li><a href="#">Reservaciones Aprobadas <span class="pull-right badge bg-aqua">5</span></a></li>
-                            <li><a href="#">Reservaciones Pendientes <span class="pull-right badge bg-green">12</span></a>
-                            </li>
-                            <li><a href="#">Reservaciones Desaprobadas <span class="pull-right badge bg-red">842</span></a></li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /.widget-user -->
-            </div>
+            <div id="escenarios"></div>
         </div>
 
         <div id="modal">
@@ -74,9 +55,49 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="modalDias" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document" style="width: 75%">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <div><h5 class="modal-title" id="exampleModalLabel">Programador Escenario</h5></div>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <table id="table-dias" class="table table-bordered table-striped">
+                                <thead>
+                                <tr>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Estado</th>
+                                    <th>Jugadores</th>
+                                    <th>Acciones</th>
+                                </tr>
+                                </thead>
+                                <tbody id="body_data_dias">
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="form-group" id="disciplinas"></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                        <input type="submit" class="btn btn-primary" value="Actualizar">
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 @endsection
 
 @section('js')
+    <script src="{{ asset('template/bower_components/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('template/bower_components/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/tee-time.js') }}"></script>
 @endsection

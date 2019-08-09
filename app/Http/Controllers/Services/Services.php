@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Services;
 use App\Models\Disciplina;
 use App\Models\Evento;
 use App\Models\Instalacion;
+use App\Models\ProgramadorEscenario;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -51,11 +52,11 @@ class Services extends Controller
         ]);
     }
 
-    /* ************************************ JUGADORES ***********************************/
+    /* ************************************ TEE TIME ***********************************/
 
     public function obtenerJugadoresGolf(Request $request)
     {
-        $codigos = json_decode($request->get('codigos'));
+        $codigos = $request->get('codigos');
         if (count($codigos) < 3)
             return response()->json([
                 'status' => 'error',
@@ -67,13 +68,13 @@ class Services extends Controller
 
         foreach ($codigos as $codigo) {
             $jugador = User::where(['codigo_golfista' => $codigo, 'estado_users_id' => 1])->get()->toArray();
-            if (count($jugador) < 1){
+            if (count($jugador) < 1) {
                 array_push($data, [
                     'status' => 'error',
                     'data' => [],
                     'message' => 'No se encontro el jugador'
                 ]);
-            }else{
+            } else {
                 array_push($data, [
                     'status' => 'ok',
                     'data' => $jugador[0],
@@ -89,9 +90,36 @@ class Services extends Controller
         ], 200);
     }
 
+    public function obtenerDiasDisponibles()
+    {
+        $dias = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))->groupBy('fecha')->get(['fecha'])->toArray();
+
+        $programador = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))
+            ->where([
+                'grupo_jugadores_golf' => null,
+                'estado' => 'DISPONIBLE'
+            ])->orderBy('fecha', 'ASC')->orderBy('hora', 'ASC')
+            ->with(['escenario.disciplina'])->get()->toArray();
+
+        $data = [];
+
+        foreach ($dias as $dia){
+            $var = ['fecha' => $dia['fecha'], 'dias' => []];
+            foreach ($programador as $p){
+                if($p['fecha'] == $dia['fecha']){
+                    array_push($var['dias'], $p);
+                }
+            }
+            array_push($data, $var);
+        }
+
+        return response()->json($data);
+    }
+
     /* ************************************ DISCIPLINAS ***********************************/
 
-    public function obtenerDisciplinas(){
+    public function obtenerDisciplinas()
+    {
         return response()->json([
             'status' => 'ok',
             'data' => Disciplina::all()->toArray(),

@@ -1,7 +1,9 @@
 $(function () {
 
     $(document).ready(function () {
-
+        $('#table-dias').DataTable();
+        $('#modalDias').modal().show();
+        cargarEscenarios();
     });
 
     $('#form-registrar-escenario').submit((e) => {
@@ -107,6 +109,51 @@ function cargarModalEscenario(registrar = true, id = undefined, nombre = undefin
             console.log(xhr);
         }
     });
+}
 
+function cargarEscenarios(){
+    let html = '';
+    $.ajax({
+        type: 'get',
+        url: '/tee-time/escenarios',
+        success: function (res) {
+            console.log(res);
+            for (let i = 0; i < res.length; i++) {
+                html += '' +
+                    '<div class="col-md-4">\n' +
+                    '    <div class="box box-widget widget-user-2">\n' +
+                    '        <!-- Add the bg color to the header using any of the bg-* classes -->\n' +
+                    '        <div class="widget-user-header bg-green" style="padding: 5px !important;">\n' +
+                    '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-remove" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="#" onclick="cargarTabla('+res[i].programador+')" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>\n' +
+                    '\n' +
+                    '            <a href="" style="text-decoration: none; color: white"><h3 class="widget-user-username" onclick="">'+res[i].nombre+'</h3></a>\n' +
+                    '            <a href="" style="text-decoration: none; color: white"><h5 class="widget-user-desc" onclick="">Disciplina: '+res[i].disciplina.nombre+'</h5></a>\n' +
+                    '        </div>\n' +
+                    '        <div class="box-footer no-padding">\n' +
+                    '            <ul class="nav nav-stacked">\n' +
+                    '                <li><a href="#" onclick="cargarTabla('+res[i].disponibles+')">Reservaciones Disponibles <span class="pull-right badge bg-green">'+res[i].disponibles.length+'</span></a></li>\n' +
+                    '                <li><a href="#" onclick="cargarTabla('+res[i].aprobados+')">Reservaciones Aprobadas <span class="pull-right badge bg-aqua">'+res[i].aprobados.length+'</span></a></li>\n' +
+                    '                <li><a href="#" onclick="cargarTabla('+res[i].desaprobados+')">Reservaciones Desaprobadas <span class="pull-right badge bg-red">'+res[i].desaprobados.length+'</span></a></li>\n' +
+                    '                <li><a href="#" onclick="cargarTabla('+res[i].pendientes+')">Reservaciones Pendientes <span class="pull-right badge bg-yellow">'+res[i].pendientes.length+'</span></a>\n' +
+                    '                </li>\n' +
+                    '            </ul>\n' +
+                    '        </div>\n' +
+                    '    </div>\n' +
+                    '</div>';
+            }
+
+            $('#escenarios').empty().append(html);
+        },
+        error: function (xhr, ajaxOptions, thrownError) {
+            console.log(xhr);
+        }
+    });
+
+}
+
+function cargarTabla(dias){
+    console.log(dias);
 
 }

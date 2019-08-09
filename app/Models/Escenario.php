@@ -25,4 +25,8 @@ class Escenario extends Model
     {
         return $this->belongsTo(Disciplina::class, 'disciplina_id');
     }
+
+    public function programador(){
+        return $this->hasMany(ProgramadorEscenario::class, 'escenario_id');
+    }
 }

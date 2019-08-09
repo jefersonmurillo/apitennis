@@ -22,7 +22,7 @@ Route::group(['prefix' => 'instalaciones'], function(){
 
 Route::group(['prefix' => 'tee-time'], function(){
     Route::get('/', function(){return view('administrador.tee-time.index');})->name('tee-time.index');
-
+    Route::get('escenarios', 'TeeTimeController@index');
     Route::post('registrarEscenario', 'TeeTimeController@registrarEscenario')->name('tee-time.registrarEscenario');
 });
 
