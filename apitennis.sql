@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.0.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 05-08-2019 a las 23:47:55
--- Versión del servidor: 10.3.16-MariaDB
--- Versión de PHP: 7.3.7
+-- Tiempo de generación: 10-08-2019 a las 15:01:00
+-- Versión del servidor: 10.1.36-MariaDB
+-- Versión de PHP: 7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -74,6 +74,28 @@ INSERT INTO `disciplina` (`id`, `nombre`, `deleted_at`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `escenario`
+--
+
+CREATE TABLE `escenario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `disciplina_id` int(10) UNSIGNED NOT NULL,
+  `nombre` varchar(65) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `escenario`
+--
+
+INSERT INTO `escenario` (`id`, `disciplina_id`, `nombre`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 2, 'Cancha de Golf', '2019-08-09 04:16:19', '2019-08-09 04:16:19', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `estado_users`
 --
 
@@ -121,6 +143,30 @@ INSERT INTO `evento` (`id`, `prioridad_id`, `tipo_evento_id`, `nombre`, `descrip
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `grupo_jugadores_golf`
+--
+
+CREATE TABLE `grupo_jugadores_golf` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `jugador1` int(10) UNSIGNED NOT NULL,
+  `jugador2` int(10) UNSIGNED NOT NULL,
+  `jugador3` int(10) UNSIGNED NOT NULL,
+  `jugador4` int(10) UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `grupo_jugadores_golf`
+--
+
+INSERT INTO `grupo_jugadores_golf` (`id`, `jugador1`, `jugador2`, `jugador3`, `jugador4`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 2, 3, 4, NULL, NULL, NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `imagenes_evento`
 --
 
@@ -149,26 +195,39 @@ INSERT INTO `imagenes_evento` (`id`, `evento_id`, `url`) VALUES
 CREATE TABLE `imagenes_instalacion` (
   `id` int(10) UNSIGNED NOT NULL,
   `instalacion_id` int(10) UNSIGNED NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `imagenes_instalacion`
 --
 
-INSERT INTO `imagenes_instalacion` (`id`, `instalacion_id`, `url`) VALUES
-(1, 1, 'storage/1.jpg'),
-(2, 1, 'storage/2.jpg'),
-(3, 2, 'storage/2.jpg'),
-(4, 8, 'storage/1.jpg'),
-(5, 10, 'storage/2.jpg'),
-(6, 2, 'storage/2.jpg'),
-(7, 3, 'storage/1.jpg'),
-(8, 7, 'storage/2.jpg'),
-(9, 2, 'storage/2.jpg'),
-(10, 9, 'storage/1.jpg'),
-(11, 4, 'storage/2.jpg'),
-(12, 2, 'storage/2.jpg');
+INSERT INTO `imagenes_instalacion` (`id`, `instalacion_id`, `url`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(3, 2, 'storage/2.jpg', NULL, NULL, NULL),
+(4, 8, 'storage/1.jpg', NULL, NULL, NULL),
+(5, 10, 'storage/2.jpg', NULL, NULL, NULL),
+(6, 2, 'storage/2.jpg', NULL, NULL, NULL),
+(7, 3, 'storage/1.jpg', NULL, NULL, NULL),
+(8, 7, 'storage/2.jpg', NULL, NULL, NULL),
+(9, 2, 'storage/2.jpg', NULL, NULL, NULL),
+(10, 9, 'storage/1.jpg', NULL, NULL, NULL),
+(11, 4, 'storage/2.jpg', NULL, NULL, NULL),
+(12, 2, 'storage/2.jpg', NULL, NULL, NULL),
+(19, 18, 'storage/instalaciones/1565141484.jpeg', '2019-08-07 06:31:24', '2019-08-07 06:31:24', NULL),
+(20, 18, 'storage/instalaciones/1565141496.jpeg', '2019-08-07 06:31:36', '2019-08-07 06:31:36', NULL),
+(21, 19, 'storage/instalaciones/1565147443.jpeg', '2019-08-07 08:10:43', '2019-08-07 08:10:43', NULL),
+(22, 19, 'storage/instalaciones/1565147444.jpeg', '2019-08-07 08:10:44', '2019-08-07 08:10:44', NULL),
+(23, 19, 'storage/instalaciones/1565147445.jpeg', '2019-08-07 08:10:45', '2019-08-07 08:10:45', NULL),
+(24, 19, 'storage/instalaciones/1565147445.jpeg', '2019-08-07 08:10:45', '2019-08-07 08:10:45', NULL),
+(25, 20, 'storage/instalaciones/1565150528.jpeg', '2019-08-07 09:02:08', '2019-08-07 09:02:08', NULL),
+(26, 20, 'storage/instalaciones/1565150529.jpeg', '2019-08-07 09:02:09', '2019-08-07 09:02:09', NULL),
+(27, 20, 'storage/instalaciones/1565150530.jpeg', '2019-08-07 09:02:10', '2019-08-07 09:02:10', NULL),
+(28, 20, 'storage/instalaciones/1565150543.jpeg', '2019-08-07 09:02:23', '2019-08-07 09:02:23', NULL),
+(29, 20, 'storage/instalaciones/1565150543.jpeg', '2019-08-07 09:02:23', '2019-08-07 09:02:23', NULL),
+(30, 20, 'storage/instalaciones/1565150544.jpeg', '2019-08-07 09:02:24', '2019-08-07 09:02:24', NULL);
 
 -- --------------------------------------------------------
 
@@ -182,24 +241,30 @@ CREATE TABLE `instalacion` (
   `disciplina_id` int(10) UNSIGNED DEFAULT NULL COMMENT 'En caso de que sea una instalación deportiva',
   `nombre` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
   `descripcion` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `instalacion`
 --
 
-INSERT INTO `instalacion` (`id`, `tipo_instalacion_id`, `disciplina_id`, `nombre`, `descripcion`, `imagen_destacada`) VALUES
-(1, 6, NULL, 'Instalacion Restaurante', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
-(2, 1, NULL, 'Instalacion Zona recreativa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
-(3, 3, NULL, 'Instalacion Deporte', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
-(4, 2, NULL, 'Instalacion Salon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg'),
-(5, 5, NULL, 'Instalacion SPA', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
-(6, 6, NULL, 'Instalacion Restaurante 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
-(7, 1, NULL, 'Instalacion Zona recreativa 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg'),
-(8, 3, NULL, 'Instalacion Deporte 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg'),
-(9, 2, NULL, 'Instalacion Salon 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg'),
-(10, 5, NULL, 'Instalacion SPA 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg');
+INSERT INTO `instalacion` (`id`, `tipo_instalacion_id`, `disciplina_id`, `nombre`, `descripcion`, `imagen_destacada`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 1, NULL, 'Instalacion Zona recreativa', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg', NULL, NULL, NULL),
+(3, 3, NULL, 'Instalacion Deporte', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg', NULL, NULL, NULL),
+(4, 2, NULL, 'Instalacion Salon', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg', NULL, NULL, NULL),
+(5, 5, NULL, 'Instalacion SPA', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg', NULL, NULL, NULL),
+(6, 6, NULL, 'Instalacion Restaurante 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg', NULL, NULL, NULL),
+(7, 1, NULL, 'Instalacion Zona recreativa 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg', NULL, NULL, NULL),
+(8, 3, NULL, 'Instalacion Deporte 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg', NULL, NULL, NULL),
+(9, 2, NULL, 'Instalacion Salon 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg', NULL, NULL, NULL),
+(10, 5, NULL, 'Instalacion SPA 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg', NULL, NULL, NULL),
+(17, 2, NULL, 'Instalacion', 'lskdjflsdjfls dfjsdfjsdf', 'storage/instalaciones/Instalacion.png', '2019-08-07 06:25:31', '2019-08-07 06:25:31', NULL),
+(18, 2, NULL, 'Instalacion', 'kijji njnuj', 'storage/instalaciones/Instalacion.png', '2019-08-07 06:31:12', '2019-08-07 06:31:12', NULL),
+(19, 5, NULL, 'Nueva instalacion', 'Otra instalacion', 'storage/instalaciones/Nueva instalacion.png', '2019-08-07 08:08:57', '2019-08-07 08:08:57', NULL),
+(20, 1, NULL, 'Instalacion', 'qdwefsdf', 'storage/instalaciones/Instalacion.jpg', '2019-08-07 09:01:52', '2019-08-07 09:01:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -231,7 +296,10 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (11, '2019_07_24_000011_create_instalacion_table', 1),
 (12, '2019_07_24_000012_create_imagenes_evento_table', 1),
 (13, '2019_07_24_000013_create_imagenes_instalacion_table', 1),
-(14, '2019_07_24_000014_create_users_table', 1);
+(14, '2019_07_24_000014_create_users_table', 1),
+(15, '2019_08_06_000011_create_escenario_table', 2),
+(16, '2019_08_06_000013_create_grupo_jugadores_golf_table', 2),
+(17, '2019_08_06_000015_create_programador_escenario_table', 2);
 
 -- --------------------------------------------------------
 
@@ -264,6 +332,34 @@ INSERT INTO `prioridad` (`id`, `prioridad`) VALUES
 (1, 'GOLD'),
 (2, 'ALTA'),
 (3, 'MEDIA');
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `programador_escenario`
+--
+
+CREATE TABLE `programador_escenario` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `escenario_id` int(10) UNSIGNED NOT NULL,
+  `grupo_jugadores_golf` int(10) UNSIGNED DEFAULT NULL,
+  `fecha` date NOT NULL,
+  `hora` time(6) NOT NULL,
+  `estado` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'DISPONIBLE - RESERVADO - APROBADO - DESAPROBADO',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Volcado de datos para la tabla `programador_escenario`
+--
+
+INSERT INTO `programador_escenario` (`id`, `escenario_id`, `grupo_jugadores_golf`, `fecha`, `hora`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, '2019-08-09', '09:00:00.000000', 'DISPONIBLE', '2019-08-08 05:00:00', '2019-08-08 05:00:00', NULL),
+(3, 1, 1, '2019-08-09', '10:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL),
+(4, 1, 1, '2019-08-09', '08:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL),
+(5, 1, NULL, '0000-00-00', '12:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -383,7 +479,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `tipo_documento_id`, `tipo_usuario_id`, `documento`, `email`, `password`, `name`, `nombres`, `apellidos`, `fecha_naci`, `telefono`, `direccion`, `genero`, `codigo_afiliado`, `codigo_golfista`, `categoria_golfista_id`, `estado_users_id`, `email_verified_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', NULL, 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16', NULL);
+(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', '1', 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16', NULL),
+(2, 1, 3, '12341234', 'j@j.com', '$2y$10$aN87hFxXpc8IogzTIjs1m.YydvdY2KSLKQytLopdQLS4ZkCMmDOQ.', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '324234234', 'Casdad', 'MASCULINO', '21111', NULL, NULL, 1, NULL, '2019-08-10 07:45:24', '2019-08-10 07:45:24', NULL),
+(3, 1, 3, '2445465756', 'j2@j.com', '$2y$10$lcv/r5ttRDK7dKXCOeDCJOzsr2ioykbBbujSl4hCjG0RlHzfypSbm', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '6876756756', 'dfdfgdfg', 'MASCULINO', '21112', NULL, NULL, 1, NULL, '2019-08-10 07:46:25', '2019-08-10 07:46:25', NULL),
+(4, 1, 3, '786786786', 'j3@j.com', '$2y$10$rPP2JG6xhRSi/2tAn3YWHOUIzV//.xcPsuZ.obHupWoOUL2S0KnXq', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '7867867', 'Csfasdf', 'MASCULINO', '21113', NULL, NULL, 1, NULL, '2019-08-10 07:47:02', '2019-08-10 07:47:02', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -402,6 +501,13 @@ ALTER TABLE `disciplina`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indices de la tabla `escenario`
+--
+ALTER TABLE `escenario`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_escenario_disciplina1_idx` (`disciplina_id`);
+
+--
 -- Indices de la tabla `estado_users`
 --
 ALTER TABLE `estado_users`
@@ -414,6 +520,16 @@ ALTER TABLE `evento`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_evento_prioridad1_idx` (`prioridad_id`),
   ADD KEY `fk_evento_tipo_evento1_idx` (`tipo_evento_id`);
+
+--
+-- Indices de la tabla `grupo_jugadores_golf`
+--
+ALTER TABLE `grupo_jugadores_golf`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_grupo_jugadores_golf_users4_idx` (`jugador4`),
+  ADD KEY `fk_grupo_jugadores_golf_users2_idx` (`jugador2`),
+  ADD KEY `fk_grupo_jugadores_golf_users3_idx` (`jugador3`),
+  ADD KEY `fk_grupo_jugadores_golf_users1_idx` (`jugador1`);
 
 --
 -- Indices de la tabla `imagenes_evento`
@@ -454,6 +570,15 @@ ALTER TABLE `password_resets`
 --
 ALTER TABLE `prioridad`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `programador_escenario`
+--
+ALTER TABLE `programador_escenario`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_progarm` (`escenario_id`,`fecha`,`hora`),
+  ADD KEY `fk_programador_escenario_grupo_jugadores_golf1_idx` (`grupo_jugadores_golf`),
+  ADD KEY `fk_programador_escenario_escenario1_idx` (`escenario_id`);
 
 --
 -- Indices de la tabla `tipo_documento`
@@ -510,6 +635,12 @@ ALTER TABLE `disciplina`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
+-- AUTO_INCREMENT de la tabla `escenario`
+--
+ALTER TABLE `escenario`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `estado_users`
 --
 ALTER TABLE `estado_users`
@@ -522,6 +653,12 @@ ALTER TABLE `evento`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
+-- AUTO_INCREMENT de la tabla `grupo_jugadores_golf`
+--
+ALTER TABLE `grupo_jugadores_golf`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de la tabla `imagenes_evento`
 --
 ALTER TABLE `imagenes_evento`
@@ -531,25 +668,31 @@ ALTER TABLE `imagenes_evento`
 -- AUTO_INCREMENT de la tabla `imagenes_instalacion`
 --
 ALTER TABLE `imagenes_instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=31;
 
 --
 -- AUTO_INCREMENT de la tabla `instalacion`
 --
 ALTER TABLE `instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT de la tabla `prioridad`
 --
 ALTER TABLE `prioridad`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
+-- AUTO_INCREMENT de la tabla `programador_escenario`
+--
+ALTER TABLE `programador_escenario`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_documento`
@@ -567,7 +710,7 @@ ALTER TABLE `tipo_evento`
 -- AUTO_INCREMENT de la tabla `tipo_instalacion`
 --
 ALTER TABLE `tipo_instalacion`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_usuario`
@@ -579,11 +722,17 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restricciones para tablas volcadas
 --
+
+--
+-- Filtros para la tabla `escenario`
+--
+ALTER TABLE `escenario`
+  ADD CONSTRAINT `fk_escenario_disciplina1_idx` FOREIGN KEY (`disciplina_id`) REFERENCES `disciplina` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `evento`
@@ -591,6 +740,15 @@ ALTER TABLE `users`
 ALTER TABLE `evento`
   ADD CONSTRAINT `fk_evento_prioridad1_idx` FOREIGN KEY (`prioridad_id`) REFERENCES `prioridad` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
   ADD CONSTRAINT `fk_evento_tipo_evento1_idx` FOREIGN KEY (`tipo_evento_id`) REFERENCES `tipo_evento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `grupo_jugadores_golf`
+--
+ALTER TABLE `grupo_jugadores_golf`
+  ADD CONSTRAINT `fk_grupo_jugadores_golf_users1_idx` FOREIGN KEY (`jugador1`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_grupo_jugadores_golf_users2_idx` FOREIGN KEY (`jugador2`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_grupo_jugadores_golf_users3_idx` FOREIGN KEY (`jugador3`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_grupo_jugadores_golf_users4_idx` FOREIGN KEY (`jugador4`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `imagenes_evento`
@@ -602,14 +760,21 @@ ALTER TABLE `imagenes_evento`
 -- Filtros para la tabla `imagenes_instalacion`
 --
 ALTER TABLE `imagenes_instalacion`
-  ADD CONSTRAINT `fk_imagenes_instalacion_instalacion1_idx` FOREIGN KEY (`instalacion_id`) REFERENCES `instalacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_imagenes_instalacion_instalacion1_idx` FOREIGN KEY (`instalacion_id`) REFERENCES `instalacion` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `instalacion`
 --
 ALTER TABLE `instalacion`
   ADD CONSTRAINT `fk_instalacion_disciplina1_idx` FOREIGN KEY (`disciplina_id`) REFERENCES `disciplina` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_instalacion_tipo_instalacion1_idx` FOREIGN KEY (`tipo_instalacion_id`) REFERENCES `tipo_instalacion` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_instalacion_tipo_instalacion1_idx` FOREIGN KEY (`tipo_instalacion_id`) REFERENCES `tipo_instalacion` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--
+-- Filtros para la tabla `programador_escenario`
+--
+ALTER TABLE `programador_escenario`
+  ADD CONSTRAINT `fk_programador_escenario_escenario1_idx` FOREIGN KEY (`escenario_id`) REFERENCES `escenario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  ADD CONSTRAINT `fk_programador_escenario_grupo_jugadores_golf1_idx` FOREIGN KEY (`grupo_jugadores_golf`) REFERENCES `grupo_jugadores_golf` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `users`
