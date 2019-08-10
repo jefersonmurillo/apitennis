@@ -10,6 +10,8 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('payload', 'AuthJWTController@payload');
 });
 
+Route::get('/', function(){return ['hello!'];})->middleware('jwt');
+
 Route::group(['prefix' => 'v1'], function () {
     Route::get('tipoDocumento', function () {
         return ['status' => 'ok', 'data' => Models\TipoDocumento::all()->toArray(), 'message' => 'Consulta Exitosa'];
