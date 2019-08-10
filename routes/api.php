@@ -48,7 +48,6 @@ Route::group(['prefix' => 'v1'], function () {
 Route::group(['prefix' => 'v1/tee-time'], function () {
     Route::post('/obtenerGolfistas', 'Services\Services@obtenerJugadoresGolf');
     Route::get('obtenerDiasDisponibles', 'Services\Services@obtenerDiasDisponibles');
-    Route::get('x', function(){return date('Y-m-d');});
 });
 
 

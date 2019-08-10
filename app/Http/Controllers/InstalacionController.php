@@ -122,7 +122,7 @@ class InstalacionController extends Controller
         $instalacion = Instalacion::where(['id' => $id]);
 
         if (count($instalacion->get()->toArray()) < 1)
-            response()->json(['respuesta' => 'Not fount', 'status' => 404], 404);
+            return response()->json(['respuesta' => 'Not fount', 'status' => 404], 404);
 
         if($request->has('imgDestacada') AND !empty($request->get('imgDestacada'))){
             $img = $request->get('imgDestacada');

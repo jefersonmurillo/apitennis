@@ -95,10 +95,7 @@ class Services extends Controller
         $dias = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))->groupBy('fecha')->get(['fecha'])->toArray();
 
         $programador = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))
-            ->where([
-                'grupo_jugadores_golf' => null,
-                'estado' => 'DISPONIBLE'
-            ])->orderBy('fecha', 'ASC')->orderBy('hora', 'ASC')
+            ->orWhere('estado', ['DISPONIBLE', 'DESAPROBADO'])->orderBy('fecha', 'ASC')->orderBy('hora', 'ASC')
             ->with(['escenario.disciplina'])->get()->toArray();
 
         $data = [];
@@ -113,7 +110,12 @@ class Services extends Controller
             array_push($data, $var);
         }
 
-        return response()->json($data);
+        return response()->json([
+            'status' => 'ok',
+            'data' => $data,
+            'message' => 'Consulta Exitosa'
+        ], 200);
+
     }
 
     /* ************************************ DISCIPLINAS ***********************************/

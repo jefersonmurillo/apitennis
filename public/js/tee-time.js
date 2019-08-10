@@ -50,13 +50,14 @@ $(function () {
                     url: '/tee-time/registrarEscenario',
                     data: data,
                     success: function (res) {
-                        console.log(res);
                         Swal.fire(
                             'Operación Exitosa!',
                             'Inforamación guardada.',
                             'success'
                         );
 
+                        cargarEscenarios();
+                        $('#form-registrar-escenario .close').click();
                     },
                     error: function (xhr, ajaxOptions, thrownError) {
                         console.log(thrownError, xhr);
@@ -78,7 +79,6 @@ function cargarModalEscenario(registrar = true, id = undefined, nombre = undefin
         type: 'get',
         url: 'http://localhost:8000/api/v1/disciplinas',
         success: function (res) {
-            console.log(res)
             disciplinas = res.data;
             let html = '' +
                 '    <label>Disciplina</label>\n' +
@@ -86,7 +86,7 @@ function cargarModalEscenario(registrar = true, id = undefined, nombre = undefin
                 '        <option value="0">Seleccione</option>\n';
 
             for (let i = 0; i < disciplinas.length; i++) {
-                if (!registrar && disciplina_id === disciplinas[i].id)
+                if (!registrar && disciplina_id === disciplinas[i].id+'')
                     html += '<option value="' + disciplinas[i].id + '" selected>' + disciplinas[i].nombre + '</option>';
                 else html += '<option value="' + disciplinas[i].id + '">' + disciplinas[i].nombre + '</option>';
             }
@@ -95,6 +95,8 @@ function cargarModalEscenario(registrar = true, id = undefined, nombre = undefin
                 '    </select>\n';
 
             if (!registrar) {
+                $('#tetleFormEscenario').empty().append('Actualizar Escenario');
+                $('#BotonFormRegistro').val('Actualizar');
                 $('#id').val(id);
                 $('#nombre').val(nombre);
             }
@@ -112,8 +114,9 @@ function cargarModalEscenario(registrar = true, id = undefined, nombre = undefin
 function cargarEscenarios() {
     let html = '';
     $.ajax({
-        type: 'get',
+        type: 'post',
         url: '/tee-time/escenarios',
+        data: {'_token': $("input:hidden[name='_token']").val()},
         success: function (res) {
             console.log(res);
             for (let i = 0; i < res.length; i++) {
@@ -122,19 +125,19 @@ function cargarEscenarios() {
                     '    <div class="box box-widget widget-user-2">\n' +
                     '        <!-- Add the bg color to the header using any of the bg-* classes -->\n' +
                     '        <div class="widget-user-header bg-green" style="padding: 5px !important;">\n' +
-                    '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-remove" style="font-size: 20px;"></i></a>\n' +
-                    '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></a>\n' +
-                    '            <a href="tee-time/show/'+res[i].id+'" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="#" onclick="eliminarEscenario(\''+res[i].id+'\')" style="color: white; margin-right: 5px;"><i class="fa fa-remove" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="#" onclick="cargarModalEscenario(false, \''+res[i].id+'\', \''+res[i].nombre+'\' , \''+res[i].disciplina_id+'\')" style="color: white; margin-right: 5px;"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="http://localhost:8000/tee-time/show/'+res[i].id+'" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>\n' +
                     '\n' +
                     '            <a href="" style="text-decoration: none; color: white"><h3 class="widget-user-username" onclick="">' + res[i].nombre + '</h3></a>\n' +
                     '            <a href="" style="text-decoration: none; color: white"><h5 class="widget-user-desc" onclick="">Disciplina: ' + res[i].disciplina.nombre + '</h5></a>\n' +
                     '        </div>\n' +
                     '        <div class="box-footer no-padding">\n' +
                     '            <ul class="nav nav-stacked">\n' +
-                    '                <li><a href="#" onclick="cargarTabla(\'' + res[i].id + '\', ' + '\'DISPONIBLE\'' + ')">Reservaciones Disponibles <span class="pull-right badge bg-green">' + res[i].disponibles.length + '</span></a></li>\n' +
-                    '                <li><a href="#" onclick="cargarTabla(\'' + res[i].id + '\', ' + '\'APROBADO\'' + ')">Reservaciones Aprobadas <span class="pull-right badge bg-aqua">' + res[i].aprobados.length + '</span></a></li>\n' +
-                    '                <li><a href="#" onclick="cargarTabla(\'' + res[i].id + '\', ' + '\'DESAPROBADO\'' + ')">Reservaciones Desaprobadas <span class="pull-right badge bg-red">' + res[i].desaprobados.length + '</span></a></li>\n' +
-                    '                <li><a href="#" onclick="cargarTabla(\'' + res[i].id + '\', ' + '\'PENDIENTE\'' + ')">Reservaciones Pendientes <span class="pull-right badge bg-yellow">' + res[i].pendientes.length + '</span></a>\n' +
+                    '                <li><a href="#">Reservaciones Disponibles <span class="pull-right badge bg-green">' + res[i].disponibles.length + '</span></a></li>\n' +
+                    '                <li><a href="#">Reservaciones Aprobadas <span class="pull-right badge bg-aqua">' + res[i].aprobados.length + '</span></a></li>\n' +
+                    '                <li><a href="#">Reservaciones Desaprobadas <span class="pull-right badge bg-red">' + res[i].desaprobados.length + '</span></a></li>\n' +
+                    '                <li><a href="#">Reservaciones Pendientes <span class="pull-right badge bg-yellow">' + res[i].pendientes.length + '</span></a>\n' +
                     '                </li>\n' +
                     '            </ul>\n' +
                     '        </div>\n' +
@@ -151,10 +154,52 @@ function cargarEscenarios() {
 
 }
 
+function eliminarEscenario(id){
+    Swal.fire({
+        title: 'Está seguro que quiere eliminar este escenario?',
+        text: 'Se borraran los datos el escenario y las reservaciones en caso de tenerlas',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+
+            let data = {
+                'id': id,
+                '_token': $("input:hidden[name='_token']").val(),
+            };
+
+            $.ajax({
+                type: 'delete',
+                url: '/tee-time/eliminarEscenario',
+                data: data,
+                success: function (res) {
+                    Swal.fire(
+                        'Escenario eliminado!',
+                        'Datos borrados.',
+                        'success'
+                    );
+
+                    cargarEscenarios();
+
+                },
+                error: function (xhr, ajaxOptions, thrownError) {
+                    Swal.fire('Error..', 'Algo salío mal, intentalo nuevamente', 'error');
+                    console.log(thrownError, xhr);
+                }
+            });
+        }
+    });
+
+    return false;
+}
+
 function cargarTabla(id, estado) {
     $.ajax({
-        type: 'get',
+        type: 'post',
         url: '/tee-time/obtenerDiasEstado/' + id + '/' + estado,
+        data: {'_token': $("input:hidden[name='_token']").val()},
         success: function (res) {
             console.log(res, estado, id);
 

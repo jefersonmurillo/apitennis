@@ -32,7 +32,7 @@
                     <form id="form-registrar-escenario" role="form" enctype="multipart/form-data">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <div><h5 class="modal-title" id="exampleModalLabel">Registrar Escenario</h5></div>
+                                <div><h5 class="modal-title" id="tetleFormEscenario">Registrar Escenario</h5></div>
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                     <span aria-hidden="true">&times;</span>
                                 </button>
@@ -48,7 +48,7 @@
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                                <input type="submit" class="btn btn-primary" value="Actualizar">
+                                <input type="submit" class="btn btn-primary" value="Registrar" id="BotonFormRegistro">
                             </div>
                         </div>
                     </form>
@@ -67,15 +67,6 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
-                            <select name="" id="">
-                                <option value="">2010-12-12</option>
-                                <option value="">2010-12-12</option>
-                                <option value="">2010-12-12</option>
-                                <option value="">2010-12-12</option>
-                            </select>
-                        </div>
                         <div class="form-group" id="modal-dias-table">
 
                         </div>
@@ -84,7 +75,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                        <input type="submit" class="btn btn-primary" value="Actualizar">
+                        <input type="submit" class="btn btn-primary" value="Registrar">
                     </div>
                 </div>
             </div>

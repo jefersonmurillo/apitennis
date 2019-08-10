@@ -32,7 +32,7 @@ class CreateEscenarioTable extends Migration
 
             $table->foreign('disciplina_id', 'fk_escenario_disciplina1_idx')
                 ->references('id')->on('disciplina')
-                ->onDelete('no action')
+                ->onDelete('cascade')
                 ->onUpdate('no action');
         });
     }

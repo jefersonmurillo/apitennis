@@ -42,33 +42,6 @@ class TeeTimeController extends Controller
         return response()->json($data);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param $id
-     * @return \Illuminate\Http\JsonResponse
-     */
     public function show($id)
     {
         $escenario = Escenario::where(['id' => $id])->with([
@@ -86,38 +59,21 @@ class TeeTimeController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+    public function eliminarFechaDiaHoraProgramada(Request $request){
+        if($request->get('id') == 'undefined'){
+            return ProgramadorEscenario::where(['fecha' => $request->get('fecha')])->delete() ? response()->json([
+                'respuesta' => 'Información guardada',
+                'status' => 200,
+                'data' => [$request->toArray()]], 200)
+                : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(), 'status' => 500], 500);
+        }else {
+            return ProgramadorEscenario::where(['id' => $request->get('id')])->delete() ? response()->json([
+                'respuesta' => 'Información guardada',
+                'status' => 200,
+                'data' => [$request->toArray()]], 200)
+                : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(), 'status' => 500], 500);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 
     public function registrarEscenario(Request $request)
@@ -142,6 +98,11 @@ class TeeTimeController extends Controller
             'status' => 200,
             'data' => [$request->toArray()]], 200)
             : response()->json(['respuesta' => 'Error', 'data' => $request->toArray(), 'status' => 500], 500);
+    }
+
+    public function eliminarEscenario(Request $request){
+        ProgramadorEscenario::where(['escenario_id' => $request->get('id')])->delete();
+        return response()->json(Escenario::find($request->get('id'))->delete());
     }
 
     public function fechasProgramadasEscenario($id)
@@ -181,18 +142,17 @@ class TeeTimeController extends Controller
                     'apellidos' => $reservacion['grupo_jugadores_golf']['jugador3']['apellidos']
                 ];
 
-                if ($item['grupo_jugadores_golf']['jugador4'] != null){
+                if ($item['grupo_jugadores_golf']['jugador4'] != null) {
                     $item['grupo_jugadores_golf']['jugador4'] = [
                         'id' => $reservacion['grupo_jugadores_golf']['jugador4']['id'],
                         'nombres' => $reservacion['grupo_jugadores_golf']['jugador4']['nombres'],
                         'apellidos' => $reservacion['grupo_jugadores_golf']['jugador4']['apellidos']
                     ];
                 }
-
                 array_push($data, $item);
-            }
+            } else array_push($data, $item);
         }
-        return response()->json($data);
+        return response()->json($reservaciones);
     }
 
     public function obtenerDiasEstado($id, $estado)
@@ -211,7 +171,8 @@ class TeeTimeController extends Controller
         return response()->json($escenario);
     }
 
-    public function registrarProgramacionEscenario(Request $request){
+    public function registrarProgramacionEscenario(Request $request)
+    {
         if (!$request->has('id') OR !$request->has('fecha') OR !$request->has('hora'))
             return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400, 'data' => [
                 $request->toArray()
@@ -220,14 +181,48 @@ class TeeTimeController extends Controller
         $hora = $request->get('hora');
 
         $hora = explode(' ', $hora);
-        if($hora[1] == 'PM'){
-            $min = explode(':', $hora[0]);
-
-        }
+        if ($hora[1] == 'PM') {
+            $hour = explode(':', $hora[0]);
+            $min = $hour[1];
+            $hour = intval($hour[0]) + 12;
+            $hora = $hour . ':' . $min . ':00.000000';
+        } else $hora = $hora[0] . ':00.000000';
 
         $programa = new ProgramadorEscenario([
             'escenario_id' => $request->get('id'),
             'fecha' => $request->get('fecha'),
+            'hora' => $hora,
+            'estado' => 'DISPONIBLE'
         ]);
+
+        return $programa->save() ?
+            response()->json([
+                'respuesta' => 'Información guardada',
+                'status' => 200,
+                'data' => []], 200)
+            : response()->json(['respuesta' => 'Error', 'status' => 500], 500);
+    }
+
+    public function cambiarEstadoDiaProgramado(Request $request)
+    {
+        if (!$request->has('id') OR $request->get('id') == '' OR !$request->has('estado') OR $request->get('estado') == '')
+            return response()->json(['respuesta' => 'Datos Invalidos', 'status' => 400, 'data' => [
+                $request->toArray()
+            ]], 400);
+
+        $id = $request->get('id');
+        $estado = $request->get('estado');
+
+        $dia = ProgramadorEscenario::where(['id' => $id]);
+
+        if (count($dia->get()->toArray()) != 1)
+            return response()->json(['respuesta' => 'Not fount', 'status' => 404], 404);
+
+        return $dia->update(['estado' => $estado]) ?
+            response()->json([
+                'respuesta' => 'Información guardada',
+                'status' => 200,
+                'data' => []], 200)
+            : response()->json(['respuesta' => 'Error', 'status' => 500], 500);
     }
 }
