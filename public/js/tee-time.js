@@ -2,7 +2,6 @@ $(function () {
 
     $(document).ready(function () {
         cargarEscenarios();
-        $('#modalDias').modal().show();
     });
 
     $('#form-registrar-escenario').submit((e) => {
@@ -125,7 +124,7 @@ function cargarEscenarios() {
                     '        <div class="widget-user-header bg-green" style="padding: 5px !important;">\n' +
                     '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-remove" style="font-size: 20px;"></i></a>\n' +
                     '            <a href="#" style="color: white; margin-right: 5px;"><i class="fa fa-pencil-square-o" style="font-size: 20px;"></i></a>\n' +
-                    '            <a href="#" onclick="cargarTabla(\'' + res[i].id + '\', ' + '\'TODOS\'' + ')" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>\n' +
+                    '            <a href="tee-time/show/'+res[i].id+'" style="color: white; margin-right: 5px;"><i class="fa fa-tripadvisor" style="font-size: 20px;"></i></a>\n' +
                     '\n' +
                     '            <a href="" style="text-decoration: none; color: white"><h3 class="widget-user-username" onclick="">' + res[i].nombre + '</h3></a>\n' +
                     '            <a href="" style="text-decoration: none; color: white"><h5 class="widget-user-desc" onclick="">Disciplina: ' + res[i].disciplina.nombre + '</h5></a>\n' +
@@ -158,21 +157,58 @@ function cargarTabla(id, estado) {
         url: '/tee-time/obtenerDiasEstado/' + id + '/' + estado,
         success: function (res) {
             console.log(res, estado, id);
-            let html = '';
+
+            $('#modal-dias-table').empty().append('' +
+                '<table id="table-dias" class="table table-bordered table-striped">\n' +
+                '    <thead>\n' +
+                '    <tr>\n' +
+                '        <th>Fecha</th>\n' +
+                '        <th>Hora</th>\n' +
+                '        <th>Estado</th>\n' +
+                '        <th>Jugadores</th>\n' +
+                '        <th>Acciones</th>\n' +
+                '    </tr>\n' +
+                '    </thead>\n' +
+                '    <tbody id="body_data_dias">\n' +
+                '\n' +
+                '    </tbody>\n' +
+                '</table>');
+
+            let t = $('#table-dias').DataTable({
+                "destroy": true,
+                "lengthMenu": [[5, 10, 15, -1], [5, 10, 15, "Todos"]],
+                language: {
+                    "decimal": "",
+                    "emptyTable": "No hay información",
+                    "info": "Mostrando _START_ a _END_ de _TOTAL_ Entradas",
+                    "infoEmpty": "Mostrando 0 to 0 of 0 Entradas",
+                    "infoFiltered": "(Filtrado de _MAX_ total entradas)",
+                    "infoPostFix": "",
+                    "thousands": ",",
+                    "lengthMenu": "Mostrar _MENU_ Entradas",
+                    "loadingRecords": "Cargando...",
+                    "processing": "Procesando...",
+                    "search": "Buscar:",
+                    "zeroRecords": "Sin resultados encontrados",
+                    "paginate": {
+                        "first": "Primero",
+                        "last": "Ultimo",
+                        "next": "Siguiente",
+                        "previous": "Anterior"
+                    }
+                },
+            }).clear().draw();
 
             for (let i = 0; i < res.programador.length; i++) {
-                html += '<tr>';
-                html += '<th>' + res.programador[i].fecha + '</th>';
-                html += '<th>' + res.programador[i].hora.split('.')[0] + '</th>';
-                html += '<th>' + res.programador[i].estado + '</th>';
-                html += '<th>' + res.programador[i].grupo_jugadores_golf + '</th>';
-                html += '<th>' + res.programador[i].grupo_jugadores_golf + '</th>';
-                html += '</tr>';
-
+                t.row.add([
+                    res.programador[i].fecha,
+                    res.programador[i].hora,
+                    res.programador[i].estado,
+                    res.programador[i].grupo_jugadores_golf,
+                    res.programador[i].grupo_jugadores_golf
+                ]).draw();
             }
 
-            $('#body_data_dias').empty().append(html);
-            $('#table-dias').DataTable();
             $('#modalDias').modal().show();
         },
         error: function (xhr, ajaxOptions, thrownError) {
@@ -180,3 +216,4 @@ function cargarTabla(id, estado) {
         }
     });
 }
+

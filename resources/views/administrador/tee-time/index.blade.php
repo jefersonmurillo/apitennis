@@ -68,20 +68,16 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <table id="table-dias" class="table table-bordered table-striped">
-                                <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Estado</th>
-                                    <th>Jugadores</th>
-                                    <th>Acciones</th>
-                                </tr>
-                                </thead>
-                                <tbody id="body_data_dias">
+                            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+                            <select name="" id="">
+                                <option value="">2010-12-12</option>
+                                <option value="">2010-12-12</option>
+                                <option value="">2010-12-12</option>
+                                <option value="">2010-12-12</option>
+                            </select>
+                        </div>
+                        <div class="form-group" id="modal-dias-table">
 
-                                </tbody>
-                            </table>
                         </div>
 
                         <div class="form-group" id="disciplinas"></div>
