@@ -129,4 +129,7 @@ class Services extends Controller
         ], 200);
     }
 
+    public function registrarTurno(){
+
+    }
 }
