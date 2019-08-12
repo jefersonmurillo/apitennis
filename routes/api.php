@@ -1,6 +1,7 @@
 <?php
 
 use App\Models;
+use App\Models\ProgramadorEscenario;
 
 Route::group(['prefix' => 'auth'], function () {
     Route::post('login', 'AuthJWTController@login');
@@ -10,7 +11,10 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('payload', 'AuthJWTController@payload');
 });
 
-Route::get('/', function(){return ['hello!'];})->middleware('jwt');
+Route::get('/', function(){
+    $turno = ProgramadorEscenario::where(['fecha' => '2019-08-12']);
+    return response()->json($turno);
+});
 
 Route::group(['prefix' => 'v1'], function () {
     Route::get('tipoDocumento', function () {
@@ -52,6 +56,8 @@ Route::group(['prefix' => 'v1/tee-time'], function () {
     Route::get('obtenerDiasDisponibles', 'Services\Services@obtenerDiasDisponibles');
 
     Route::post('registrarTurno', 'Services\Services@registrarTurno');
+
+    Route::post('obtenerReservacionesGolfista', 'Services\Services@obtenerReservacionesGolfista');
 });
 
 

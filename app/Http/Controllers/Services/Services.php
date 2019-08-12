@@ -73,7 +73,7 @@ class Services extends Controller
             if (count($jugador) < 1) {
                 array_push($data, [
                     'status' => 'error',
-                    'data' => [$jugador, $codigo],
+                    'data' => [],
                     'message' => 'No se encontro el jugador'
                 ]);
             } else {
@@ -102,6 +102,7 @@ class Services extends Controller
             ], 402);
         }
 
+
         $turno = ProgramadorEscenario::where(['id' => $request->get('codigo_turno')]);
 
         if (count($turno->get()->toArray()) < 1) {
@@ -114,21 +115,26 @@ class Services extends Controller
 
         $codigos_jugadores = json_decode($request->get('codigos_jugadores'));
 
+        $result = $this->validarJugadoresTurnoDia($turno->get()->toArray()[0]['fecha'], $codigos_jugadores);
 
+        if (!$result['ok'])
+            return response()->json([
+                'status' => 'error',
+                'data' => $result,
+                'message' => 'Hay jugadores con reservaciones disponibles para esta fecha'
+            ], 402);
 
-        $grupo =  new GrupoJugadoresGolf();
+        $datos = [
+            'jugador1' => $codigos_jugadores[0],
+            'jugador2' => $codigos_jugadores[1],
+            'jugador3' => $codigos_jugadores[2],
+            'estado' => 'RESERVADO'
+        ];
 
-        $grupo->jugador1 = $codigos_jugadores[0];
-        $grupo->jugador2 = $codigos_jugadores[1];
-        $grupo->jugador3 = $codigos_jugadores[2];
+        count($codigos_jugadores) > 3 ? $datos['jugador4'] = $codigos_jugadores[3] : false;
 
-        if(count($codigos_jugadores) == 4)
-            $grupo->jugador4 = $codigos_jugadores[3];
-
-        $grupo->save();
-
-        $update = $turno->update(['grupo_jugadores_golf' => $grupo->getKey(), 'estado' => 'RESERVADO']);
-        if($update){
+        $update = $turno->update($datos);
+        if ($update) {
             return response()->json([
                 'status' => 'ok',
                 'data' => [],
@@ -143,14 +149,22 @@ class Services extends Controller
         ], 500);
     }
 
-    private function validarJugadoresTurnoDia($fecha, $codigos){
-        $programadores = ProgramadorEscenario::where(['fecha' => $fecha])->with([
-            'jugador1', 'jugador2', 'jugador3', 'jugador4'
-        ])->get()->toArray();
+    private function validarJugadoresTurnoDia($fecha, $codigos)
+    {
+        $turnos = ProgramadorEscenario::where(['fecha' => $fecha])->with(['jugador1', 'jugador2', 'jugador3', 'jugador4'])->get()->toArray();
+        $data = ['ok' => true, 'jugadores' => []];
 
-        foreach ($programadores as $programador) {
-            
+        foreach ($codigos as $codigo) {
+            foreach ($turnos as $turno) {
+                if ($turno['jugador1']['codigo_afiliado'] == $codigo OR $turno['jugador2']['codigo_afiliado'] == $codigo OR $turno['jugador3']['codigo_afiliado'] == $codigo) {
+                    $data['ok'] = false;
+                    array_push($data['jugadores'], $codigo);
+                } else if ($turno['jugador4'] != null AND $turno['jugador4']['codigo_afiliado'] == $codigo)
+                    array_push($data['jugadores'], $codigo);
+            }
         }
+
+        return $data;
     }
 
     public function obtenerDiasDisponibles()
@@ -179,6 +193,26 @@ class Services extends Controller
             'message' => 'Consulta Exitosa'
         ], 200);
 
+    }
+
+    public function obtenerReservacionesGolfista(Request $request)
+    {
+        if (!$request->has('codigo_golfista') OR empty($request->get('codigo_golista')) OR is_null($request->get('codigo_golfista')))
+            response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'Faltan datos'
+            ], 402);
+
+        $codigo_golfista = $request->get('codigo_golfista');
+
+        $reservaciones = ProgramadorEscenario::where(['jugador1' => $codigo_golfista])
+            ->orWhere(['jugador2' => $codigo_golfista])
+            ->orWhere(['jugador3' => $codigo_golfista])
+            ->orWhere(['jugador4' => $codigo_golfista])
+            ->with(['jugador1', 'jugador2', 'jugador3', 'jugador4'])->get()->toArray();
+
+        return response()->json($reservaciones);
     }
 
     /* ************************************ DISCIPLINAS ***********************************/
