@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Services;
 
 use App\Models\Disciplina;
 use App\Models\Evento;
+use App\Models\GrupoJugadoresGolf;
 use App\Models\Instalacion;
 use App\Models\ProgramadorEscenario;
 use App\User;
@@ -57,6 +58,7 @@ class Services extends Controller
     public function obtenerJugadoresGolf(Request $request)
     {
         $codigos = $request->get('codigos');
+        $codigos = json_decode($codigos);
         if (count($codigos) < 3)
             return response()->json([
                 'status' => 'error',
@@ -71,7 +73,7 @@ class Services extends Controller
             if (count($jugador) < 1) {
                 array_push($data, [
                     'status' => 'error',
-                    'data' => [],
+                    'data' => [$jugador, $codigo],
                     'message' => 'No se encontro el jugador'
                 ]);
             } else {
@@ -90,6 +92,67 @@ class Services extends Controller
         ], 200);
     }
 
+    public function registrarTurno(Request $request)
+    {
+        if (!$request->has('codigos_jugadores') OR !$request->has('codigo_turno')) {
+            response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'Faltan datos'
+            ], 402);
+        }
+
+        $turno = ProgramadorEscenario::where(['id' => $request->get('codigo_turno')]);
+
+        if (count($turno->get()->toArray()) < 1) {
+            return response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'Turno no encontrado'
+            ], 404);
+        }
+
+        $codigos_jugadores = json_decode($request->get('codigos_jugadores'));
+
+
+
+        $grupo =  new GrupoJugadoresGolf();
+
+        $grupo->jugador1 = $codigos_jugadores[0];
+        $grupo->jugador2 = $codigos_jugadores[1];
+        $grupo->jugador3 = $codigos_jugadores[2];
+
+        if(count($codigos_jugadores) == 4)
+            $grupo->jugador4 = $codigos_jugadores[3];
+
+        $grupo->save();
+
+        $update = $turno->update(['grupo_jugadores_golf' => $grupo->getKey(), 'estado' => 'RESERVADO']);
+        if($update){
+            return response()->json([
+                'status' => 'ok',
+                'data' => [],
+                'message' => 'Reservación realizada'
+            ], 200);
+        }
+
+        return response()->json([
+            'status' => 'error',
+            'data' => [],
+            'message' => 'Ocurrió un error'
+        ], 500);
+    }
+
+    private function validarJugadoresTurnoDia($fecha, $codigos){
+        $programadores = ProgramadorEscenario::where(['fecha' => $fecha])->with([
+            'jugador1', 'jugador2', 'jugador3', 'jugador4'
+        ])->get()->toArray();
+
+        foreach ($programadores as $programador) {
+            
+        }
+    }
+
     public function obtenerDiasDisponibles()
     {
         $dias = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))->groupBy('fecha')->get(['fecha'])->toArray();
@@ -100,10 +163,10 @@ class Services extends Controller
 
         $data = [];
 
-        foreach ($dias as $dia){
+        foreach ($dias as $dia) {
             $var = ['fecha' => $dia['fecha'], 'dias' => []];
-            foreach ($programador as $p){
-                if($p['fecha'] == $dia['fecha']){
+            foreach ($programador as $p) {
+                if ($p['fecha'] == $dia['fecha']) {
                     array_push($var['dias'], $p);
                 }
             }
@@ -129,7 +192,4 @@ class Services extends Controller
         ], 200);
     }
 
-    public function registrarTurno(){
-
-    }
 }
