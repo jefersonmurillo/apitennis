@@ -35,7 +35,7 @@ class Services extends Controller
 
     public function obtenerEventos()
     {
-        $eventos = Evento::with(['prioridad', 'tipoEvento', 'imagenesEventos'])->get()->toArray();
+        $eventos = Evento::with(['prioridad', 'tipoEvento', 'imagenesEventos'])->take(20)->get()->toArray();
         $data = [];
 
         /**
