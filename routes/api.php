@@ -49,10 +49,17 @@ Route::group(['prefix' => 'v1'], function () {
     Route::get('categoriasGolfista', function () {
         return ['status' => 'ok', 'data' => Models\CategoriaGolfista::all()->toArray(), 'message' => 'Consulta Exitosa'];
     });
+
+    /**
+     *********************** TIPOS DE INSTALACION *************************
+     */
+
+    Route::get('sugerenciasChef', 'Services\Services@listarSugerenciasDelChef');
+    Route::get('saborGourmet', 'Services\Services@listarSaborGourmet');
 });
 
 Route::group(['prefix' => 'v1/tee-time'], function () {
-    Route::post('/obtenerGolfistas', 'Services\Services@obtenerJugadoresGolf');
+    Route::post('obtenerGolfistas', 'Services\Services@obtenerJugadoresGolf');
     Route::get('obtenerDiasDisponibles', 'Services\Services@obtenerDiasDisponibles');
 
     Route::post('registrarTurno', 'Services\Services@registrarTurno');

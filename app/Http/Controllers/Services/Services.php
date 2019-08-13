@@ -7,6 +7,7 @@ use App\Models\Evento;
 use App\Models\GrupoJugadoresGolf;
 use App\Models\Instalacion;
 use App\Models\ProgramadorEscenario;
+use App\Models\SugerenciaSabor;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -58,13 +59,12 @@ class Services extends Controller
     public function obtenerJugadoresGolf(Request $request)
     {
         $codigos = $request->get('codigos');
-        $codigos = json_decode($codigos);
         if (count($codigos) < 3)
             return response()->json([
                 'status' => 'error',
                 'data' => [],
                 'message' => 'Jugadores incompletos'
-            ], 402);
+            ], 400);
 
         $data = [];
 
@@ -97,9 +97,9 @@ class Services extends Controller
         if (!$request->has('codigos_jugadores') OR !$request->has('codigo_turno')) {
             response()->json([
                 'status' => 'error',
-                'data' => [],
+                'data' => [$request->toArray()],
                 'message' => 'Faltan datos'
-            ], 402);
+            ], 400);
         }
 
 
@@ -108,12 +108,12 @@ class Services extends Controller
         if (count($turno->get()->toArray()) < 1) {
             return response()->json([
                 'status' => 'error',
-                'data' => [],
+                'data' => [$request->toArray()],
                 'message' => 'Turno no encontrado'
             ], 404);
         }
 
-        $codigos_jugadores = json_decode($request->get('codigos_jugadores'));
+        $codigos_jugadores = $request->get('codigos_jugadores');
 
         $result = $this->validarJugadoresTurnoDia($turno->get()->toArray()[0]['fecha'], $codigos_jugadores);
 
@@ -122,12 +122,13 @@ class Services extends Controller
                 'status' => 'error',
                 'data' => $result,
                 'message' => 'Hay jugadores con reservaciones disponibles para esta fecha'
-            ], 402);
+            ], 400);
 
         $datos = [
             'jugador1' => $codigos_jugadores[0],
             'jugador2' => $codigos_jugadores[1],
             'jugador3' => $codigos_jugadores[2],
+            'jugador4' => null,
             'estado' => 'RESERVADO'
         ];
 
@@ -172,7 +173,7 @@ class Services extends Controller
         $dias = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))->groupBy('fecha')->get(['fecha'])->toArray();
 
         $programador = ProgramadorEscenario::where('fecha', '>=', date('Y-m-d'))
-            ->orWhere('estado', ['DISPONIBLE', 'DESAPROBADO'])->orderBy('fecha', 'ASC')->orderBy('hora', 'ASC')
+            ->orderBy('fecha', 'ASC')->orderBy('hora', 'ASC')
             ->with(['escenario.disciplina'])->get()->toArray();
 
         $data = [];
@@ -180,7 +181,7 @@ class Services extends Controller
         foreach ($dias as $dia) {
             $var = ['fecha' => $dia['fecha'], 'dias' => []];
             foreach ($programador as $p) {
-                if ($p['fecha'] == $dia['fecha']) {
+                if ($p['fecha'] == $dia['fecha'] AND ($p['estado'] == 'DISPONIBLE' OR $p['estado'] == 'DESAPROBADO')) {
                     array_push($var['dias'], $p);
                 }
             }
@@ -212,7 +213,7 @@ class Services extends Controller
             ->orWhere(['jugador4' => $codigo_golfista])
             ->with(['jugador1', 'jugador2', 'jugador3', 'jugador4'])->get()->toArray();
 
-        return response()->json($reservaciones);
+        return response()->json(['status' => 'ok', 'message' => 'Consulta exitosa', 'data' => $reservaciones]);
     }
 
     /* ************************************ DISCIPLINAS ***********************************/
@@ -224,6 +225,27 @@ class Services extends Controller
             'data' => Disciplina::all()->toArray(),
             'message' => 'Consulta Exitosa'
         ], 200);
+    }
+
+
+    /* ************************************ SUGERENCIAS SABOR ***********************************/
+
+    public function listarSugerenciasDelChef(){
+        $sugerencias = SugerenciaSabor::where('fecha', '<=', date('Y-m-d'))->where(['tipo' => '1'])->orderBy('fecha', 'DESC')->get()->toArray();
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Consulta Exitosa',
+            'data' => $sugerencias
+        ]);
+    }
+
+    public function listarSaborGourmet(){
+        $sabores = SugerenciaSabor::where('fecha', '<=', date('Y-m-d'))->where(['tipo' => '0'])->orderBy('fecha', 'DESC')->get()->toArray();
+        return response()->json([
+            'status' => 'ok',
+            'message' => 'Consulta Exitosa',
+            'data' => $sabores
+        ]);
     }
 
 }
