@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-08-2019 a las 15:01:00
+-- Tiempo de generación: 13-08-2019 a las 15:05:40
 -- Versión del servidor: 10.1.36-MariaDB
 -- Versión de PHP: 7.2.11
 
@@ -124,45 +124,25 @@ CREATE TABLE `evento` (
   `prioridad_id` int(10) UNSIGNED NOT NULL,
   `tipo_evento_id` int(10) UNSIGNED NOT NULL,
   `nombre` varchar(70) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descripcion` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `descripcion` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL,
   `fecha_inicio` date NOT NULL,
   `fecha_fin` date NOT NULL,
-  `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Volcado de datos para la tabla `evento`
---
-
-INSERT INTO `evento` (`id`, `prioridad_id`, `tipo_evento_id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `imagen_destacada`) VALUES
-(1, 2, 3, 'Evento1', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-02', 'storage/1.jpg'),
-(2, 1, 1, 'Evento Familiar', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/2.jpg'),
-(3, 2, 1, 'Evento Familiar', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-23', '2019-08-01', 'storage/3.jpg'),
-(4, 1, 2, 'Evento Infantil', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/1.jpg');
-
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `grupo_jugadores_golf`
---
-
-CREATE TABLE `grupo_jugadores_golf` (
-  `id` int(10) UNSIGNED NOT NULL,
-  `jugador1` int(10) UNSIGNED NOT NULL,
-  `jugador2` int(10) UNSIGNED NOT NULL,
-  `jugador3` int(10) UNSIGNED NOT NULL,
-  `jugador4` int(10) UNSIGNED DEFAULT NULL,
+  `imagen_destacada` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Volcado de datos para la tabla `grupo_jugadores_golf`
+-- Volcado de datos para la tabla `evento`
 --
 
-INSERT INTO `grupo_jugadores_golf` (`id`, `jugador1`, `jugador2`, `jugador3`, `jugador4`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 2, 3, 4, NULL, NULL, NULL, NULL);
+INSERT INTO `evento` (`id`, `prioridad_id`, `tipo_evento_id`, `nombre`, `descripcion`, `fecha_inicio`, `fecha_fin`, `imagen_destacada`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 1, 'Este evento fue actualizado', 'Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado Este evento fue actualizado', '2019-08-01', '2019-08-20', 'storage/eventos/1565674659.jpg', '2019-08-13 10:00:00', '2019-08-13 11:04:04', NULL),
+(2, 1, 1, 'Evento Familiar', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/eventos/2.jpg', NULL, '2019-08-13 09:47:06', NULL),
+(4, 1, 2, 'Evento Infantil', 'Lorem Ipsum es simplemente el texto de relleno de las imprentas y archivos de texto. Lorem Ipsum ha sido el texto de relleno estándar de las industrias desde el año 1500, cuando un impresor (N. del T.', '2019-07-31', '2019-08-08', 'storage/eventos/1.jpg', '2019-08-13 05:00:00', '2019-08-13 10:02:02', '2019-08-13 10:02:02'),
+(5, 1, 1, 'Eventor veevsd', 'Eventor veevsd Eventor veevsd', '2019-08-13', '2019-08-20', 'storage/eventos/1565677507.jpg', '2019-08-13 11:25:07', '2019-08-13 11:25:07', NULL),
+(6, 1, 1, 'Eventooooooo', 'Eventooooooo Eventooooooo', '2019-08-13', '2019-08-20', 'storage/eventos/1565677738.jpg', '2019-08-13 11:28:58', '2019-08-13 11:28:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -173,18 +153,19 @@ INSERT INTO `grupo_jugadores_golf` (`id`, `jugador1`, `jugador2`, `jugador3`, `j
 CREATE TABLE `imagenes_evento` (
   `id` int(10) UNSIGNED NOT NULL,
   `evento_id` int(10) UNSIGNED NOT NULL,
-  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL
+  `url` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Volcado de datos para la tabla `imagenes_evento`
 --
 
-INSERT INTO `imagenes_evento` (`id`, `evento_id`, `url`) VALUES
-(1, 1, 'storage/2.jpg'),
-(2, 1, 'storage/3.jpg'),
-(3, 2, 'storage/1.jpg'),
-(4, 2, 'storage/3.jpg');
+INSERT INTO `imagenes_evento` (`id`, `evento_id`, `url`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(14, 1, 'storage/eventos/1565674680.jpeg', '2019-08-13 10:38:00', '2019-08-13 10:38:00', NULL),
+(15, 6, 'storage/eventos/1565677749.jpeg', '2019-08-13 11:29:09', '2019-08-13 11:29:09', NULL);
 
 -- --------------------------------------------------------
 
@@ -261,10 +242,10 @@ INSERT INTO `instalacion` (`id`, `tipo_instalacion_id`, `disciplina_id`, `nombre
 (8, 3, NULL, 'Instalacion Deporte 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/1.jpg', NULL, NULL, NULL),
 (9, 2, NULL, 'Instalacion Salon 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/2.jpg', NULL, NULL, NULL),
 (10, 5, NULL, 'Instalacion SPA 2', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam iaculis lobortis ipsum, a placerat metus lobortis sed. Aliquam bibendum efficitur nulla in rutrum. Praesent elementum finibus lectus ut', 'storage/3.jpg', NULL, NULL, NULL),
-(17, 2, NULL, 'Instalacion', 'lskdjflsdjfls dfjsdfjsdf', 'storage/instalaciones/Instalacion.png', '2019-08-07 06:25:31', '2019-08-07 06:25:31', NULL),
-(18, 2, NULL, 'Instalacion', 'kijji njnuj', 'storage/instalaciones/Instalacion.png', '2019-08-07 06:31:12', '2019-08-07 06:31:12', NULL),
-(19, 5, NULL, 'Nueva instalacion', 'Otra instalacion', 'storage/instalaciones/Nueva instalacion.png', '2019-08-07 08:08:57', '2019-08-07 08:08:57', NULL),
-(20, 1, NULL, 'Instalacion', 'qdwefsdf', 'storage/instalaciones/Instalacion.jpg', '2019-08-07 09:01:52', '2019-08-07 09:01:52', NULL);
+(17, 2, NULL, 'Instalacion', 'lskdjflsdjfls dfjsdfjsdf', 'storage/instalaciones/1.jpg', '2019-08-07 06:25:31', '2019-08-07 06:25:31', NULL),
+(18, 2, NULL, 'Instalacion', 'kijji njnuj', 'storage/instalaciones/2.jpg', '2019-08-07 06:31:12', '2019-08-07 06:31:12', NULL),
+(19, 5, NULL, 'Nueva instalacion', 'Otra instalacion', 'storage/instalaciones/3.jpg', '2019-08-07 08:08:57', '2019-08-07 08:08:57', NULL),
+(20, 1, NULL, 'Instalacion', 'qdwefsdf', 'storage/instalaciones/4.jpg', '2019-08-07 09:01:52', '2019-08-07 09:01:52', NULL);
 
 -- --------------------------------------------------------
 
@@ -342,10 +323,13 @@ INSERT INTO `prioridad` (`id`, `prioridad`) VALUES
 CREATE TABLE `programador_escenario` (
   `id` int(10) UNSIGNED NOT NULL,
   `escenario_id` int(10) UNSIGNED NOT NULL,
-  `grupo_jugadores_golf` int(10) UNSIGNED DEFAULT NULL,
   `fecha` date NOT NULL,
   `hora` time(6) NOT NULL,
   `estado` varchar(45) COLLATE utf8mb4_unicode_ci NOT NULL COMMENT 'DISPONIBLE - RESERVADO - APROBADO - DESAPROBADO',
+  `jugador1` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jugador2` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jugador3` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `jugador4` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -355,11 +339,40 @@ CREATE TABLE `programador_escenario` (
 -- Volcado de datos para la tabla `programador_escenario`
 --
 
-INSERT INTO `programador_escenario` (`id`, `escenario_id`, `grupo_jugadores_golf`, `fecha`, `hora`, `estado`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 1, '2019-08-09', '09:00:00.000000', 'DISPONIBLE', '2019-08-08 05:00:00', '2019-08-08 05:00:00', NULL),
-(3, 1, 1, '2019-08-09', '10:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL),
-(4, 1, 1, '2019-08-09', '08:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL),
-(5, 1, NULL, '0000-00-00', '12:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL);
+INSERT INTO `programador_escenario` (`id`, `escenario_id`, `fecha`, `hora`, `estado`, `jugador1`, `jugador2`, `jugador3`, `jugador4`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, '2019-08-11', '09:00:00.000000', 'RESERVADO', '88888', '55555', '1111', NULL, '2019-08-08 05:00:00', '2019-08-13 08:35:41', NULL),
+(3, 1, '2019-08-12', '10:00:00.000000', 'RESERVADO', '-1', '21111', '21112', NULL, NULL, '2019-08-13 04:26:44', NULL),
+(4, 1, '2019-08-14', '08:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL, NULL, NULL, '2019-08-12 02:02:06', NULL),
+(5, 1, '2019-08-13', '12:00:00.000000', 'RESERVADO', '-1', '21111', '21112', NULL, NULL, '2019-08-13 08:58:51', NULL),
+(6, 1, '2019-08-12', '23:45:00.000000', 'DISPONIBLE', NULL, NULL, NULL, NULL, '2019-08-13 09:43:51', '2019-08-13 09:43:51', NULL),
+(7, 1, '2019-08-13', '12:15:00.000000', 'DISPONIBLE', NULL, NULL, NULL, NULL, '2019-08-13 10:13:04', '2019-08-13 10:13:04', NULL),
+(8, 1, '2019-08-13', '11:15:00.000000', 'DISPONIBLE', NULL, NULL, NULL, NULL, '2019-08-13 10:13:27', '2019-08-13 10:13:27', NULL),
+(9, 1, '2019-08-13', '24:00:00.000000', 'DISPONIBLE', NULL, NULL, NULL, NULL, '2019-08-13 10:14:09', '2019-08-13 10:14:09', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `sugerencias_sabor`
+--
+
+CREATE TABLE `sugerencias_sabor` (
+  `id` int(11) NOT NULL,
+  `url` varchar(256) COLLATE utf8_spanish_ci NOT NULL,
+  `tipo` varchar(45) COLLATE utf8_spanish_ci NOT NULL COMMENT '1 -> Sugerencia \n0 -> Sabor',
+  `fecha` date NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci;
+
+--
+-- Volcado de datos para la tabla `sugerencias_sabor`
+--
+
+INSERT INTO `sugerencias_sabor` (`id`, `url`, `tipo`, `fecha`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'storage/1.jpg', '1', '2019-08-13', NULL, NULL, NULL),
+(2, 'storage/1.jpg', '1', '2019-08-14', NULL, NULL, NULL),
+(3, 'storage/1.jpg', '1', '2019-08-12', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -479,10 +492,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `tipo_documento_id`, `tipo_usuario_id`, `documento`, `email`, `password`, `name`, `nombres`, `apellidos`, `fecha_naci`, `telefono`, `direccion`, `genero`, `codigo_afiliado`, `codigo_golfista`, `categoria_golfista_id`, `estado_users_id`, `email_verified_at`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', '1', 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16', NULL),
-(2, 1, 3, '12341234', 'j@j.com', '$2y$10$aN87hFxXpc8IogzTIjs1m.YydvdY2KSLKQytLopdQLS4ZkCMmDOQ.', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '324234234', 'Casdad', 'MASCULINO', '21111', NULL, NULL, 1, NULL, '2019-08-10 07:45:24', '2019-08-10 07:45:24', NULL),
-(3, 1, 3, '2445465756', 'j2@j.com', '$2y$10$lcv/r5ttRDK7dKXCOeDCJOzsr2ioykbBbujSl4hCjG0RlHzfypSbm', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '6876756756', 'dfdfgdfg', 'MASCULINO', '21112', NULL, NULL, 1, NULL, '2019-08-10 07:46:25', '2019-08-10 07:46:25', NULL),
-(4, 1, 3, '786786786', 'j3@j.com', '$2y$10$rPP2JG6xhRSi/2tAn3YWHOUIzV//.xcPsuZ.obHupWoOUL2S0KnXq', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '7867867', 'Csfasdf', 'MASCULINO', '21113', NULL, NULL, 1, NULL, '2019-08-10 07:47:02', '2019-08-10 07:47:02', NULL);
+(1, 1, 2, '1092362256', 'admin@admin.com', '$2y$10$06XNrJZ9X2mMRikG5nlb1.99a/qPpyHGwk0D03KYQBkbZ6oB85nnS', 'Administrator', 'Jeferson', 'Murillo Ariza', '12/02/1997', '3133708060', 'Calle 34', 'MASCULÍNO', '-1', '-1', 1, 1, NULL, '2019-07-27 06:03:16', '2019-07-27 06:03:16', NULL),
+(2, 1, 3, '12341234', 'j@j.com', '$2y$10$aN87hFxXpc8IogzTIjs1m.YydvdY2KSLKQytLopdQLS4ZkCMmDOQ.', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '324234234', 'Casdad', 'MASCULINO', '21111', '21111', NULL, 1, NULL, '2019-08-10 07:45:24', '2019-08-10 07:45:24', NULL),
+(3, 1, 3, '2445465756', 'j2@j.com', '$2y$10$lcv/r5ttRDK7dKXCOeDCJOzsr2ioykbBbujSl4hCjG0RlHzfypSbm', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '6876756756', 'dfdfgdfg', 'MASCULINO', '21112', '21112', NULL, 1, NULL, '2019-08-10 07:46:25', '2019-08-10 07:46:25', NULL),
+(4, 1, 3, '786786786', 'j3@j.com', '$2y$10$rPP2JG6xhRSi/2tAn3YWHOUIzV//.xcPsuZ.obHupWoOUL2S0KnXq', 'Jeferson Manuel', 'Jeferson Manuel', 'Murillo Ariza', '2019-12-12', '7867867', 'Csfasdf', 'MASCULINO', '21113', '21113', NULL, 1, NULL, '2019-08-10 07:47:02', '2019-08-10 07:47:02', NULL),
+(6, 1, 3, '76868967675', 'j@j5.com', '$2y$10$kNl1rrK.IyvPBxRNNdhkyuo/yLlLO.dG0F9pCURMk8vUrEvEfJSpK', 'Golfista', 'Golfista', 'Golfista', '2019-12-12', '5456756', 'sdfgsdfgsfg', 'MASCULINO', '1111', '1111', NULL, 1, NULL, '2019-08-12 02:22:22', '2019-08-12 02:22:22', NULL),
+(7, 3, 3, '08796765', 'jojadasd@asdasd.com', '$2y$10$SQOcRREK6sgq4jCmVvsQ1.ts0tuKcWwIq/DXL9GvatGXYV0kEx17u', 'ioiioioioi', 'ioiioioioi', 'oioioioioi', '2011-12-12', '97887978', 'jijhnm,', 'MASCULINO', '88888', '88888', NULL, 1, NULL, '2019-08-12 02:32:26', '2019-08-12 02:32:26', NULL),
+(8, 3, 3, '87687676', 'ooioiok@ookasda.com', '$2y$10$hWlM.7WxO26iKVgs8/bBF.wDnOAQYhgDy.DqGyxh5/zHAjtKH5wTi', 'yyyyyy', 'yyyyyy', 'yyyyy', '2011-12-12', '97687989', 'bjhghjj', 'MASCULINO', '55555', '55555', 1, 1, NULL, '2019-08-12 02:33:44', '2019-08-12 02:33:44', NULL);
 
 --
 -- Índices para tablas volcadas
@@ -520,16 +536,6 @@ ALTER TABLE `evento`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_evento_prioridad1_idx` (`prioridad_id`),
   ADD KEY `fk_evento_tipo_evento1_idx` (`tipo_evento_id`);
-
---
--- Indices de la tabla `grupo_jugadores_golf`
---
-ALTER TABLE `grupo_jugadores_golf`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_grupo_jugadores_golf_users4_idx` (`jugador4`),
-  ADD KEY `fk_grupo_jugadores_golf_users2_idx` (`jugador2`),
-  ADD KEY `fk_grupo_jugadores_golf_users3_idx` (`jugador3`),
-  ADD KEY `fk_grupo_jugadores_golf_users1_idx` (`jugador1`);
 
 --
 -- Indices de la tabla `imagenes_evento`
@@ -577,8 +583,17 @@ ALTER TABLE `prioridad`
 ALTER TABLE `programador_escenario`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `unique_progarm` (`escenario_id`,`fecha`,`hora`),
-  ADD KEY `fk_programador_escenario_grupo_jugadores_golf1_idx` (`grupo_jugadores_golf`),
-  ADD KEY `fk_programador_escenario_escenario1_idx` (`escenario_id`);
+  ADD KEY `fk_programador_escenario_escenario1_idx` (`escenario_id`),
+  ADD KEY `jugador4` (`jugador4`),
+  ADD KEY `jugador1` (`jugador1`),
+  ADD KEY `jugador2` (`jugador2`),
+  ADD KEY `jugador3` (`jugador3`);
+
+--
+-- Indices de la tabla `sugerencias_sabor`
+--
+ALTER TABLE `sugerencias_sabor`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `tipo_documento`
@@ -650,19 +665,13 @@ ALTER TABLE `estado_users`
 -- AUTO_INCREMENT de la tabla `evento`
 --
 ALTER TABLE `evento`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT de la tabla `grupo_jugadores_golf`
---
-ALTER TABLE `grupo_jugadores_golf`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes_evento`
 --
 ALTER TABLE `imagenes_evento`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de la tabla `imagenes_instalacion`
@@ -692,7 +701,13 @@ ALTER TABLE `prioridad`
 -- AUTO_INCREMENT de la tabla `programador_escenario`
 --
 ALTER TABLE `programador_escenario`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+
+--
+-- AUTO_INCREMENT de la tabla `sugerencias_sabor`
+--
+ALTER TABLE `sugerencias_sabor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `tipo_documento`
@@ -722,7 +737,7 @@ ALTER TABLE `tipo_usuario`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- Restricciones para tablas volcadas
@@ -742,19 +757,10 @@ ALTER TABLE `evento`
   ADD CONSTRAINT `fk_evento_tipo_evento1_idx` FOREIGN KEY (`tipo_evento_id`) REFERENCES `tipo_evento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 --
--- Filtros para la tabla `grupo_jugadores_golf`
---
-ALTER TABLE `grupo_jugadores_golf`
-  ADD CONSTRAINT `fk_grupo_jugadores_golf_users1_idx` FOREIGN KEY (`jugador1`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_grupo_jugadores_golf_users2_idx` FOREIGN KEY (`jugador2`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_grupo_jugadores_golf_users3_idx` FOREIGN KEY (`jugador3`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_grupo_jugadores_golf_users4_idx` FOREIGN KEY (`jugador4`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
-
---
 -- Filtros para la tabla `imagenes_evento`
 --
 ALTER TABLE `imagenes_evento`
-  ADD CONSTRAINT `fk_imagenes_evento_evento1_idx` FOREIGN KEY (`evento_id`) REFERENCES `evento` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `fk_imagenes_evento_evento1_idx` FOREIGN KEY (`evento_id`) REFERENCES `evento` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `imagenes_instalacion`
@@ -774,7 +780,10 @@ ALTER TABLE `instalacion`
 --
 ALTER TABLE `programador_escenario`
   ADD CONSTRAINT `fk_programador_escenario_escenario1_idx` FOREIGN KEY (`escenario_id`) REFERENCES `escenario` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `fk_programador_escenario_grupo_jugadores_golf1_idx` FOREIGN KEY (`grupo_jugadores_golf`) REFERENCES `grupo_jugadores_golf` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `jugador1` FOREIGN KEY (`jugador1`) REFERENCES `users` (`codigo_golfista`),
+  ADD CONSTRAINT `jugador2` FOREIGN KEY (`jugador2`) REFERENCES `users` (`codigo_golfista`),
+  ADD CONSTRAINT `jugador3` FOREIGN KEY (`jugador3`) REFERENCES `users` (`codigo_golfista`),
+  ADD CONSTRAINT `jugador4` FOREIGN KEY (`jugador4`) REFERENCES `users` (`codigo_golfista`);
 
 --
 -- Filtros para la tabla `users`
