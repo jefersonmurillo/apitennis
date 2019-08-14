@@ -12,6 +12,7 @@ use App\Models\SugerenciaSabor;
 use App\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Log;
 
 class Services extends Controller
 {
@@ -199,13 +200,14 @@ class Services extends Controller
 
     public function obtenerReservacionesGolfista(Request $request)
     {
-        if (!$request->has('codigo_golfista') OR empty($request->get('codigo_golista')) OR
-            is_null($request->get('codigo_golfista')))
+        Log::error($request->toArray());
+        if (!$request->has('codigo_golfista') OR $request->get('codigo_golfista') == '') {
             return response()->json([
                 'status' => 'error',
-                'data' => [],
+                'data' => $request->toArray(),
                 'message' => 'Faltan datos'
-            ], 402);
+            ], 400);
+        }
 
         $codigo_golfista = $request->get('codigo_golfista');
 
@@ -215,14 +217,16 @@ class Services extends Controller
         $data = [];
 
         foreach ($reservaciones as $reservacione) {
-            if ($reservacione['jugador1'] != null AND $reservacione['jugador1']['codigo_golfista'] == $codigo_golfista)
+            $reservacione['hora'] = explode('.', $reservacione['hora'])[0];
+            if ($reservacione['jugador1'] != null AND $reservacione['jugador1']['codigo_golfista'] == $codigo_golfista) {
                 array_push($data, $reservacione);
-            else if ($reservacione['jugador2'] != null AND $reservacione['jugador2']['codigo_golfista'] == $codigo_golfista)
+            } else if ($reservacione['jugador2'] != null AND $reservacione['jugador2']['codigo_golfista'] == $codigo_golfista) {
                 array_push($data, $reservacione);
-            elseif ($reservacione['jugador3'] != null AND $reservacione['jugador3']['codigo_golfista'] == $codigo_golfista)
+            } elseif ($reservacione['jugador3'] != null AND $reservacione['jugador3']['codigo_golfista'] == $codigo_golfista) {
                 array_push($data, $reservacione);
-            elseif ($reservacione['jugador4'] != null AND $reservacione['jugador4']['codigo_golfista'] == $codigo_golfista)
+            } elseif ($reservacione['jugador4'] != null AND $reservacione['jugador4']['codigo_golfista'] == $codigo_golfista) {
                 array_push($data, $reservacione);
+            }
         }
 
         return response()->json(['status' => 'ok', 'message' => 'Consulta exitosa', 'data' => $data]);
