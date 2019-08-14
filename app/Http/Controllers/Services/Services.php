@@ -6,6 +6,7 @@ use App\Models\Disciplina;
 use App\Models\Evento;
 use App\Models\GrupoJugadoresGolf;
 use App\Models\Instalacion;
+use App\Models\Pqrs;
 use App\Models\ProgramadorEscenario;
 use App\Models\SugerenciaSabor;
 use App\User;
@@ -198,8 +199,9 @@ class Services extends Controller
 
     public function obtenerReservacionesGolfista(Request $request)
     {
-        if (!$request->has('codigo_golfista') OR empty($request->get('codigo_golista')) OR is_null($request->get('codigo_golfista')))
-            response()->json([
+        if (!$request->has('codigo_golfista') OR empty($request->get('codigo_golista')) OR
+            is_null($request->get('codigo_golfista')))
+            return response()->json([
                 'status' => 'error',
                 'data' => [],
                 'message' => 'Faltan datos'
@@ -207,13 +209,23 @@ class Services extends Controller
 
         $codigo_golfista = $request->get('codigo_golfista');
 
-        $reservaciones = ProgramadorEscenario::where(['jugador1' => $codigo_golfista])
-            ->orWhere(['jugador2' => $codigo_golfista])
-            ->orWhere(['jugador3' => $codigo_golfista])
-            ->orWhere(['jugador4' => $codigo_golfista])
-            ->with(['jugador1', 'jugador2', 'jugador3', 'jugador4'])->get()->toArray();
+        $reservaciones = ProgramadorEscenario::with(['jugador1', 'jugador2', 'jugador3', 'jugador4', 'escenario'])
+            ->get()->toArray();
 
-        return response()->json(['status' => 'ok', 'message' => 'Consulta exitosa', 'data' => $reservaciones]);
+        $data = [];
+
+        foreach ($reservaciones as $reservacione) {
+            if ($reservacione['jugador1'] != null AND $reservacione['jugador1']['codigo_golfista'] == $codigo_golfista)
+                array_push($data, $reservacione);
+            else if ($reservacione['jugador2'] != null AND $reservacione['jugador2']['codigo_golfista'] == $codigo_golfista)
+                array_push($data, $reservacione);
+            elseif ($reservacione['jugador3'] != null AND $reservacione['jugador3']['codigo_golfista'] == $codigo_golfista)
+                array_push($data, $reservacione);
+            elseif ($reservacione['jugador4'] != null AND $reservacione['jugador4']['codigo_golfista'] == $codigo_golfista)
+                array_push($data, $reservacione);
+        }
+
+        return response()->json(['status' => 'ok', 'message' => 'Consulta exitosa', 'data' => $data]);
     }
 
     /* ************************************ DISCIPLINAS ***********************************/
@@ -230,22 +242,64 @@ class Services extends Controller
 
     /* ************************************ SUGERENCIAS SABOR ***********************************/
 
-    public function listarSugerenciasDelChef(){
+    public function listarSugerenciasDelChef()
+    {
         $sugerencias = SugerenciaSabor::where('fecha', '<=', date('Y-m-d'))->where(['tipo' => '1'])->orderBy('fecha', 'DESC')->get()->toArray();
         return response()->json([
             'status' => 'ok',
             'message' => 'Consulta Exitosa',
-            'data' => $sugerencias
+            'data' => count($sugerencias) > 0 ? $sugerencias[0] : []
         ]);
     }
 
-    public function listarSaborGourmet(){
+    public function listarSaborGourmet()
+    {
         $sabores = SugerenciaSabor::where('fecha', '<=', date('Y-m-d'))->where(['tipo' => '0'])->orderBy('fecha', 'DESC')->get()->toArray();
         return response()->json([
             'status' => 'ok',
             'message' => 'Consulta Exitosa',
-            'data' => $sabores
+            'data' => count($sabores) > 0 ? $sabores[0] : []
         ]);
+    }
+
+    /* ************************************ PQRS ***********************************/
+
+    public function registrarPqrs(Request $request)
+    {
+        if (!$request->has('codigo_afiliado') OR !$request->has('asunto') OR !$request->has('mensaje'))
+            return response()->json([
+                'status' => 'error',
+                'data' => $request->toArray(),
+                'message' => 'Faltan datos'
+            ], 402);
+
+        $codigo_afiliado = $request->get('codigo_afiliado');
+        $asunto = $request->get('asunto');
+        $mensaje = $request->get('mensaje');
+
+        $usuario = User::where(['codigo_afiliado' => $codigo_afiliado])->get()->toArray();
+
+        if (count($usuario) != 1)
+            return response()->json([
+                'status' => 'error',
+                'data' => [],
+                'message' => 'Usuario no encontrado'
+            ], 404);
+
+        $pqrs = new Pqrs(['users_id' => $usuario[0]['id'], 'asunto' => $asunto, 'mensage' => $mensaje]);
+
+        if ($pqrs->save())
+            return response()->json([
+                'status' => 'ok',
+                'data' => [],
+                'message' => 'Datos guardados'
+            ], 200);
+
+        return response()->json([
+            'status' => 'error',
+            'data' => [],
+            'message' => 'Error al guardar la información'
+        ], 500);
     }
 
 }

@@ -56,9 +56,10 @@ Route::group(['prefix' => 'v1'], function () {
 
     Route::get('sugerenciasChef', 'Services\Services@listarSugerenciasDelChef');
     Route::get('saborGourmet', 'Services\Services@listarSaborGourmet');
+    Route::post('registrarPqrs', 'Services\Services@registrarPqrs');
 });
 
-Route::group(['prefix' => 'v1/tee-time'], function () {
+Route::group(['prefix' => 'v1/tee-time', 'middleware' => ['jwt']], function () {
     Route::post('obtenerGolfistas', 'Services\Services@obtenerJugadoresGolf');
     Route::get('obtenerDiasDisponibles', 'Services\Services@obtenerDiasDisponibles');
 
