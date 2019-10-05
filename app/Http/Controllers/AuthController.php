@@ -24,6 +24,8 @@ class AuthController extends Controller
     {
         $credentials = request(['email', 'password']);
 
+        /*$credentials['tipo_usuario_id'] = 3;*/
+
         if (Auth::guard('web')->attempt($credentials))
         {
             return redirect()->route('home');

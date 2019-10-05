@@ -46,6 +46,8 @@ class LoginController extends Controller
 
         ]);
 
+        /*$credentials['tipo_usuario_id'] = 3;*/
+
         if (Auth::guard('web')->attempt($credentials))
         {
             return redirect()->route('home');

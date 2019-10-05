@@ -24,6 +24,8 @@ class AuthJWTController extends Controller
     {
         $credentials = request(['email', 'password']);
 
+        /*$credentials['tipo_usuario_id'] = 3;*/
+
         if (!$token = Auth::guard('api')->attempt($credentials)) {
             return response()->json([
                 'status' => 'error',

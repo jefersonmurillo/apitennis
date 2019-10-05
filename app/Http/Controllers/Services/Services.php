@@ -159,10 +159,10 @@ class Services extends Controller
 
         foreach ($codigos as $codigo) {
             foreach ($turnos as $turno) {
-                if ($turno['jugador1']['codigo_afiliado'] == $codigo OR $turno['jugador2']['codigo_afiliado'] == $codigo OR $turno['jugador3']['codigo_afiliado'] == $codigo) {
+                if ($turno['jugador1']['codigo_golfista'] == $codigo OR $turno['jugador2']['codigo_golfista'] == $codigo OR $turno['jugador3']['codigo_golfista'] == $codigo) {
                     $data['ok'] = false;
                     array_push($data['jugadores'], $codigo);
-                } else if ($turno['jugador4'] != null AND $turno['jugador4']['codigo_afiliado'] == $codigo)
+                } else if ($turno['jugador4'] != null AND $turno['jugador4']['codigo_golfista'] == $codigo)
                     array_push($data['jugadores'], $codigo);
             }
         }
